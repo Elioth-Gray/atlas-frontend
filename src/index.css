@@ -12,11 +12,23 @@
   --color-background: #f7f8fc;
   --color-surface: #ffffff;
   --color-surface-subtle: #f8f9fc;
+  --color-border: #dde1ec;
 
   /* Text */
   --color-heading: #172033;
   --color-body: #334155;
   --color-muted-foreground: #475569;
+
+  /* Sentiment chart */
+  --color-sentiment-positive: #8f6cff;
+  --color-sentiment-neutral: #5a88f6;
+  --color-sentiment-negative: #ee6daa;
+
+  /* Typography */
+  --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+
+  /* Elevation */
+  --shadow-card: 0 4px 12px rgba(30.6, 35.7, 56.1, 0.06);
 }
 
 /* Base UI popups (Dialog, Menu, Select) are rendered in a portal, this keeps them above the page */
