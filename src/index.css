@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+
+/* Brand colors, used as bg-primary, text-primary, border-primary/60, etc. */
+@theme {
+  --color-primary: #2a4aa0;
+  --color-primary-foreground: #ffffff;
+  --color-muted-foreground: #71717a;
+}
+
+/* Base UI popups (Dialog, Menu, Select) are rendered in a portal, this keeps them above the page */
+#root {
+  isolation: isolate;
+}
+
+/* Needed by Base UI backdrops on iOS Safari */
+body {
+  position: relative;
+}

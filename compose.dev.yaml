@@ -1,0 +1,25 @@
+# Development: docker compose -f compose.dev.yaml up    -> http://localhost:5173
+# Stop:        docker compose -f compose.dev.yaml down
+# Reads the VITE_ variables from .env (copy .env.example first)
+name: atlas-frontend-dev
+
+services:
+  web:
+    build:
+      context: .
+      target: dev
+    # Build on every up, so changed dependencies or config never run stale (unchanged steps come from cache)
+    pull_policy: build
+    ports:
+      - '5173:5173'
+    # Only the source is mounted for hot reload; node_modules and config come from the image
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./index.html:/app/index.html
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      # File change events from a Windows or macOS host do not reach the container, so Vite polls
+      CHOKIDAR_USEPOLLING: 'true'

@@ -1,0 +1,18 @@
+# Production: docker compose -f compose.prod.yaml up -d  -> http://localhost:8080
+# Stop:       docker compose -f compose.prod.yaml down
+# Reads the VITE_ variables from .env and bakes them into the bundle at build time
+name: atlas-frontend-prod
+
+services:
+  web:
+    build:
+      context: .
+      target: prod
+      args:
+        VITE_APP_NAME: ${VITE_APP_NAME}
+        VITE_BACKEND_URL: ${VITE_BACKEND_URL}
+    # Build on every up, so the served bundle always matches the current source
+    pull_policy: build
+    ports:
+      - '8080:80'
+    restart: unless-stopped

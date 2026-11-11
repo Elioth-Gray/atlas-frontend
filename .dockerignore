@@ -1,0 +1,17 @@
+# Installed and built inside the image
+node_modules
+dist
+
+# Local only. VITE_ values reach the production build through build args
+.env
+.env.*
+!.env.example
+
+.git
+.husky
+.vscode
+.idea
+.claude
+docs
+coverage
+*.log
