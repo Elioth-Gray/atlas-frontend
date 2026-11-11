@@ -50,18 +50,19 @@ export const TOP_COMPLAINTS: ComplaintItem[] = [
 
 export interface ReviewDay {
   label: string
-  height: number
+  qr: number
+  google: number
   highlighted?: boolean
 }
 
 export const WEEKLY_REVIEWS: ReviewDay[] = [
-  { label: 'Sen', height: 43 },
-  { label: 'Sel', height: 64 },
-  { label: 'Rab', height: 48 },
-  { label: 'Kam', height: 88 },
-  { label: 'Jum', height: 74 },
-  { label: 'Sab', height: 100, highlighted: true },
-  { label: 'Min', height: 83 },
+  { label: 'Sen', qr: 10, google: 6 },
+  { label: 'Sel', qr: 15, google: 9 },
+  { label: 'Rab', qr: 11, google: 7 },
+  { label: 'Kam', qr: 21, google: 12 },
+  { label: 'Jum', qr: 17, google: 10 },
+  { label: 'Sab', qr: 24, google: 13, highlighted: true },
+  { label: 'Min', qr: 20, google: 11 },
 ]
 
 export interface FeedbackItem {

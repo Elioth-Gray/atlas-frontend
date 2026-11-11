@@ -35,7 +35,20 @@ describe('routes', () => {
       await screen.findByRole('heading', { name: 'Grup Feedback & Solusi AI' })
     ).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Peta feedback kamu' })).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'Solusi Feedback AI' })).not.toBeInTheDocument()
+  })
+
+  it('shows the AI solution for a feedback topic when it is picked', async () => {
+    const user = userEvent.setup()
+    renderPath('/grup-feedback')
+
+    await user.click(await screen.findByRole('button', { name: 'Lihat solusi untuk Ukuran porsi' }))
+
     expect(screen.getByRole('heading', { name: 'Solusi Feedback AI' })).toBeInTheDocument()
+    expect(screen.getByText('Standarkan takaran porsi')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Tutup solusi' }))
+    expect(screen.queryByRole('heading', { name: 'Solusi Feedback AI' })).not.toBeInTheDocument()
   })
 
   it('asks to connect Google Maps before showing synced reviews', async () => {
@@ -61,6 +74,17 @@ describe('routes', () => {
     expect(await screen.findByRole('heading', { name: 'Edit Akun Bisnis' })).toBeInTheDocument()
     expect(screen.getByLabelText('Nama bisnis')).toHaveValue('Northstar Coffee')
     expect(screen.getByRole('button', { name: 'Simpan perubahan' })).toBeInTheDocument()
+  })
+
+  it('switches between the light and dark theme from the header', async () => {
+    const user = userEvent.setup()
+    renderPath('/')
+
+    await user.click(await screen.findByRole('button', { name: 'Gunakan tema gelap' }))
+    expect(document.documentElement).toHaveClass('dark')
+
+    await user.click(screen.getByRole('button', { name: 'Gunakan tema terang' }))
+    expect(document.documentElement).not.toHaveClass('dark')
   })
 
   it('sends an unknown path back to the start page', async () => {

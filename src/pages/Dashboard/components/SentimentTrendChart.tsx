@@ -1,38 +1,33 @@
 import { MoreHorizontal } from 'lucide-react'
 import { useId } from 'react'
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
 
 import { Card } from '@/components/ui/Card'
+import { ChartTooltip } from '@/components/ui/ChartTooltip'
+import { CountUp } from '@/components/ui/CountUp'
 import { cn } from '@/utils/cn'
+import { MOTION_MS } from '@/utils/motion'
 
 import { SENTIMENT_SUMMARY, SENTIMENT_TREND } from '../dashboardData'
 
-const WIDTH = 600
-const HEIGHT = 150
-const Y_LABELS = ['100', '75', '50', '25', '0']
+const AXIS_TICK = { fontSize: 10, fill: 'var(--color-body)' }
 
-function buildLinePath(values: number[]) {
-  const step = WIDTH / (values.length - 1)
-  const points = values.map((value, index) => ({
-    x: index * step,
-    y: HEIGHT - (value / 100) * HEIGHT,
-  }))
-
-  return points.reduce((path, point, index) => {
-    if (index === 0) return `M ${point.x} ${point.y}`
-
-    const previous = points[index - 1]
-    const control = step / 3
-    return `${path} C ${previous.x + control} ${previous.y}, ${point.x - control} ${point.y}, ${point.x} ${point.y}`
-  }, '')
-}
+const SERIES = [
+  { key: 'positive', name: 'Positif', color: 'var(--color-sentiment-positive)' },
+  { key: 'neutral', name: 'Netral', color: 'var(--color-sentiment-neutral)' },
+  { key: 'negative', name: 'Negatif', color: 'var(--color-sentiment-negative)' },
+] as const
 
 export function SentimentTrendChart() {
   const gradientId = `sentiment-${useId().replaceAll(':', '')}`
-
-  const positivePath = buildLinePath(SENTIMENT_TREND.map((point) => point.positive))
-  const neutralPath = buildLinePath(SENTIMENT_TREND.map((point) => point.neutral))
-  const negativePath = buildLinePath(SENTIMENT_TREND.map((point) => point.negative))
-  const areaPath = `${positivePath} L ${WIDTH} ${HEIGHT} L 0 ${HEIGHT} Z`
   const summary = SENTIMENT_SUMMARY.map((item) => `${item.label} ${item.value}`).join(', ')
 
   return (
@@ -56,74 +51,56 @@ export function SentimentTrendChart() {
           <li key={item.label} className="flex items-center gap-1.5 text-[10px] text-body">
             <span className={cn('size-1.5 shrink-0 rounded-full', item.colorClass)} />
             <span>
-              {item.label} <span className="font-medium">{item.value}</span>
+              {item.label} <CountUp value={item.value} className="font-medium" />
             </span>
           </li>
         ))}
       </ul>
 
-      <div className="mt-1.5 flex gap-2.5">
-        <div
-          aria-hidden="true"
-          className="flex h-[150px] flex-col justify-between text-right text-[10px] leading-none text-body"
-        >
-          {Y_LABELS.map((label) => (
-            <span key={label}>{label}</span>
-          ))}
-        </div>
-
-        <div className="min-w-0 flex-1">
-          <div role="img" aria-label={`Grafik tren sentimen: ${summary}`}>
-            <svg
-              aria-hidden="true"
-              className="h-[150px] w-full"
-              viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-              preserveAspectRatio="none"
-            >
-              <defs>
-                <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-                  <stop
-                    offset="0%"
-                    stopColor="var(--color-sentiment-positive)"
-                    stopOpacity="0.35"
-                  />
-                  <stop offset="100%" stopColor="var(--color-sentiment-positive)" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              <path d={areaPath} fill={`url(#${gradientId})`} />
-              <path
-                d={positivePath}
-                fill="none"
-                stroke="var(--color-sentiment-positive)"
-                strokeWidth="2"
-                vectorEffect="non-scaling-stroke"
+      <div role="img" aria-label={`Grafik tren sentimen: ${summary}`} className="mt-3 h-[180px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={SENTIMENT_TREND} margin={{ top: 6, right: 6, bottom: 0, left: -26 }}>
+            <defs>
+              <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="var(--color-sentiment-positive)" stopOpacity={0.35} />
+                <stop offset="100%" stopColor="var(--color-sentiment-positive)" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid vertical={false} stroke="var(--color-border)" strokeDasharray="3 4" />
+            <XAxis
+              dataKey="label"
+              tick={AXIS_TICK}
+              tickLine={false}
+              axisLine={false}
+              tickMargin={6}
+            />
+            <YAxis
+              domain={[0, 100]}
+              ticks={[0, 25, 50, 75, 100]}
+              tick={AXIS_TICK}
+              tickLine={false}
+              axisLine={false}
+            />
+            <Tooltip
+              content={<ChartTooltip valueSuffix="%" />}
+              cursor={{ stroke: 'var(--color-secondary)', strokeDasharray: '3 3' }}
+            />
+            {SERIES.map((series) => (
+              <Area
+                key={series.key}
+                type="monotone"
+                dataKey={series.key}
+                name={series.name}
+                stroke={series.color}
+                strokeWidth={2}
+                fill={series.key === 'positive' ? `url(#${gradientId})` : 'transparent'}
+                activeDot={{ r: 4, strokeWidth: 2, stroke: 'var(--color-surface)' }}
+                animationDuration={MOTION_MS}
+                animationEasing="ease-out"
               />
-              <path
-                d={neutralPath}
-                fill="none"
-                stroke="var(--color-sentiment-neutral)"
-                strokeWidth="2"
-                vectorEffect="non-scaling-stroke"
-              />
-              <path
-                d={negativePath}
-                fill="none"
-                stroke="var(--color-sentiment-negative)"
-                strokeWidth="2"
-                vectorEffect="non-scaling-stroke"
-              />
-            </svg>
-          </div>
-
-          <div
-            aria-hidden="true"
-            className="mt-1 flex justify-between text-[10px] leading-none text-body"
-          >
-            {SENTIMENT_TREND.map((point) => (
-              <span key={point.label}>{point.label}</span>
             ))}
-          </div>
-        </div>
+          </AreaChart>
+        </ResponsiveContainer>
       </div>
     </Card>
   )

@@ -1,7 +1,8 @@
+import { PageHeader } from '@/components/layout/PageHeader'
 import { APP_NAME } from '@/constants'
+import { MOTION } from '@/utils/motion'
 
 import { DashboardFilters } from './components/DashboardFilters'
-import { DashboardHeader } from './components/DashboardHeader'
 import { LatestFeedback } from './components/LatestFeedback'
 import { SentimentTrendChart } from './components/SentimentTrendChart'
 import { StatCard } from './components/StatCard'
@@ -15,14 +16,14 @@ export default function DashboardPage() {
       <title>Dashboard — {APP_NAME}</title>
 
       <div className="flex flex-1 flex-col">
-        <DashboardHeader />
+        <PageHeader title="Dashboard" subtitle="Semua feedback, dalam satu tampilan." />
 
         <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 pt-[22px] pb-[50px] sm:px-7">
           <DashboardFilters />
 
           <div className="mt-[18px] grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            {STATS.map((stat) => (
-              <StatCard key={stat.label} {...stat} />
+            {STATS.map((stat, index) => (
+              <StatCard key={stat.label} {...stat} delay={index * MOTION.stagger} />
             ))}
           </div>
 

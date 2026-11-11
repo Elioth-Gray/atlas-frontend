@@ -13,6 +13,10 @@ import { RouterProvider } from 'react-router/dom'
 import { queryClient } from '@/api/queryClient'
 import { ErrorFallback } from '@/components/ErrorFallback'
 import { router } from '@/router'
+import { applyTheme, getStoredTheme } from '@/utils/theme'
+
+// Set before the first render so the saved theme shows without a light flash
+applyTheme(getStoredTheme())
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

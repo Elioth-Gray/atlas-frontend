@@ -1,10 +1,13 @@
+import type { CSSProperties } from 'react'
+
 interface QrCodeProps {
   matrix: string[]
   label: string
   className?: string
+  style?: CSSProperties
 }
 
-export function QrCode({ matrix, label, className }: QrCodeProps) {
+export function QrCode({ matrix, label, className, style }: QrCodeProps) {
   const size = matrix.length
 
   return (
@@ -13,6 +16,7 @@ export function QrCode({ matrix, label, className }: QrCodeProps) {
       aria-label={label}
       viewBox={`0 0 ${size} ${size}`}
       className={className}
+      style={style}
       shapeRendering="crispEdges"
     >
       {matrix.flatMap((row, rowIndex) =>

@@ -44,7 +44,7 @@ export default function GoogleMapsPage() {
         />
 
         <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 pt-[22px] pb-[50px] sm:px-7">
-          <div className="mx-auto w-full max-w-[980px]">
+          <div>
             {isConnected ? (
               <>
                 <button

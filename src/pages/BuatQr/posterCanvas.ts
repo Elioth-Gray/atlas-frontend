@@ -1,9 +1,8 @@
 import { drawModules } from './canvasUtils'
+import type { PosterTheme } from './posterTheme'
 
 export const POSTER_WIDTH = 560
 export const POSTER_HEIGHT = 820
-
-const QR_COLOR = '#6442DD'
 
 function drawTrackedText(
   context: CanvasRenderingContext2D,
@@ -35,7 +34,7 @@ function drawCenteredTrackedText(
   context.textAlign = 'center'
 }
 
-function drawPosterBrand(context: CanvasRenderingContext2D) {
+function drawPosterBrand(context: CanvasRenderingContext2D, theme: PosterTheme) {
   const x = 45.7
   const y = 55.7
   const markSize = 59.3
@@ -69,7 +68,7 @@ function drawPosterBrand(context: CanvasRenderingContext2D) {
 
   const textX = x + markSize + 17.2
   context.textAlign = 'left'
-  context.fillStyle = '#475569'
+  context.fillStyle = theme.brandText
   context.font = '700 25px Poppins, sans-serif'
   drawTrackedText(context, 'ATLAS', textX, y + 24, 4.7)
   context.font = '400 20px Poppins, sans-serif'
@@ -80,13 +79,14 @@ function drawPosterBrand(context: CanvasRenderingContext2D) {
 export function drawPoster(
   context: CanvasRenderingContext2D,
   matrix: string[],
-  businessName: string
+  businessName: string,
+  theme: PosterTheme
 ) {
   context.beginPath()
   context.roundRect(0, 0, POSTER_WIDTH, POSTER_HEIGHT, 36)
   context.clip()
 
-  context.fillStyle = '#FFFFFF'
+  context.fillStyle = theme.background
   context.fillRect(0, 0, POSTER_WIDTH, POSTER_HEIGHT)
 
   const glow = context.createRadialGradient(
@@ -97,30 +97,30 @@ export function drawPoster(
     POSTER_HEIGHT * 0.25,
     POSTER_WIDTH * 0.95
   )
-  glow.addColorStop(0, 'rgba(130, 97, 255, 0.4)')
+  glow.addColorStop(0, theme.glow)
   glow.addColorStop(0.32, 'rgba(130, 97, 255, 0)')
   context.fillStyle = glow
   context.fillRect(0, 0, POSTER_WIDTH, POSTER_HEIGHT)
 
-  drawPosterBrand(context)
+  drawPosterBrand(context, theme)
 
   context.save()
   context.translate(POSTER_WIDTH / 2 - 20, 520)
   context.rotate((-24 * Math.PI) / 180)
   context.beginPath()
   context.ellipse(0, 0, 300, 140, 0, 0, Math.PI * 2)
-  context.strokeStyle = 'rgba(130, 97, 255, 0.25)'
+  context.strokeStyle = theme.orbit
   context.lineWidth = 2
   context.stroke()
   context.restore()
 
-  context.fillStyle = '#172033'
+  context.fillStyle = theme.heading
   context.font = '400 40px Poppins, sans-serif'
   context.textAlign = 'center'
   context.fillText('Gimana', POSTER_WIDTH / 2, 220)
   context.fillText('pengalamanmu?', POSTER_WIDTH / 2, 270)
 
-  context.fillStyle = '#475569'
+  context.fillStyle = theme.body
   context.font = '400 20px Poppins, sans-serif'
   context.fillText('Scan untuk kasih feedback.', POSTER_WIDTH / 2, 318)
   context.fillText('Cuma butuh semenit.', POSTER_WIDTH / 2, 340)
@@ -130,13 +130,13 @@ export function drawPoster(
   const qrY = 356
   const qrInner = 232
 
-  context.fillStyle = QR_COLOR
+  context.fillStyle = theme.qrBox
   context.beginPath()
   context.roundRect(qrX, qrY, qrBox, qrBox, 24)
   context.fill()
-  drawModules(context, matrix, qrX + 28, qrY + 28, qrInner, '#FFFFFF', 0)
+  drawModules(context, matrix, qrX + 28, qrY + 28, qrInner, theme.qrModules, 0)
 
-  context.fillStyle = '#475569'
+  context.fillStyle = theme.body
   context.font = '400 18px Poppins, sans-serif'
   drawCenteredTrackedText(context, 'SCAN UNTUK KASIH FEEDBACK', POSTER_WIDTH / 2, 664, 2)
 

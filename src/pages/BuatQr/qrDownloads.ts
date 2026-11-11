@@ -3,6 +3,7 @@ import { DOWNLOAD_FORMATS } from './buatQrData'
 import { canvasToBlob, createCanvas, drawModules, triggerDownload } from './canvasUtils'
 import { canvasToPdf } from './pdf'
 import { drawPoster, POSTER_HEIGHT, POSTER_WIDTH } from './posterCanvas'
+import type { PosterTheme } from './posterTheme'
 
 const QR_COLOR = '#6442DD'
 const QUIET_ZONE = 4
@@ -51,7 +52,8 @@ export async function downloadPoster(
   matrix: string[],
   businessName: string,
   fileNameBase: string,
-  format: DownloadFormatId
+  format: DownloadFormatId,
+  theme: PosterTheme
 ) {
   await document.fonts.ready
 
@@ -59,6 +61,6 @@ export async function downloadPoster(
   const context = canvas.getContext('2d')
   if (!context) throw new Error('Canvas 2D tidak tersedia.')
 
-  drawPoster(context, matrix, businessName)
+  drawPoster(context, matrix, businessName, theme)
   await exportCanvas(canvas, format, fileNameBase)
 }
