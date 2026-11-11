@@ -49,7 +49,7 @@ export default function AkunBisnisPage() {
         />
 
         <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 pt-[22px] pb-[50px] sm:px-7">
-          <form onSubmit={handleSubmit} className="mx-auto w-full max-w-[980px]">
+          <form onSubmit={handleSubmit}>
             <div className="flex min-h-[37px] flex-wrap items-center justify-between gap-2">
               <div className="flex flex-wrap items-center gap-[7px]">
                 <button

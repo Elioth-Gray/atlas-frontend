@@ -2,6 +2,8 @@ import { Search } from 'lucide-react'
 
 import { CURRENT_USER } from '@/constants'
 
+import { ThemeToggle } from './ThemeToggle'
+
 interface PageHeaderProps {
   title: string
   subtitle: string
@@ -9,7 +11,7 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, subtitle }: PageHeaderProps) {
   return (
-    <header className="flex min-h-[84px] flex-col justify-center gap-3 border-b border-border bg-surface px-4 py-4 sm:px-7 lg:flex-row lg:items-center lg:justify-between">
+    <header className="sticky top-0 z-30 flex min-h-[84px] flex-col justify-center gap-3 border-b border-border bg-surface px-4 py-4 sm:px-7 lg:flex-row lg:items-center lg:justify-between">
       <div>
         <h1 className="text-xl leading-6 font-normal text-heading">{title}</h1>
         <p className="pt-[5px] text-[11px] leading-[13.5px] text-body">{subtitle}</p>
@@ -29,6 +31,8 @@ export function PageHeader({ title, subtitle }: PageHeaderProps) {
             className="h-full w-full rounded-[10px] border border-border bg-surface-subtle pr-3 pl-9 text-[11px] text-body placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-secondary"
           />
         </label>
+
+        <ThemeToggle />
 
         <button
           type="button"

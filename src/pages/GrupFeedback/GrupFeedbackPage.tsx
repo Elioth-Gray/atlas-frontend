@@ -3,7 +3,6 @@ import { APP_NAME } from '@/constants'
 
 import { FeedbackFilters } from './components/FeedbackFilters'
 import { FeedbackMap } from './components/FeedbackMap'
-import { SolutionSection } from './components/SolutionSection'
 
 export default function GrupFeedbackPage() {
   return (
@@ -17,12 +16,9 @@ export default function GrupFeedbackPage() {
         />
 
         <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 pt-[22px] pb-[50px] sm:px-7">
-          <div className="mx-auto w-full max-w-[980px]">
-            <FeedbackFilters />
-            <div className="mt-[18px]">
-              <FeedbackMap />
-            </div>
-            <SolutionSection />
+          <FeedbackFilters />
+          <div className="mt-[18px]">
+            <FeedbackMap />
           </div>
         </main>
       </div>

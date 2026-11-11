@@ -15,5 +15,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/setupTests.ts'],
+    // Lazy pages pull in three.js and Recharts on first import, which can take several seconds
+    testTimeout: 20000,
   },
 })

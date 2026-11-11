@@ -15,7 +15,7 @@ export function StarRating({ rating }: StarRatingProps) {
           aria-hidden="true"
           className={cn(
             'size-3',
-            index < rating ? 'fill-[#F2B958] text-[#F2B958]' : 'fill-[#343546] text-[#343546]'
+            index < rating ? 'fill-[#F2B958] text-[#F2B958]' : 'fill-border text-border'
           )}
           strokeWidth={0}
         />
