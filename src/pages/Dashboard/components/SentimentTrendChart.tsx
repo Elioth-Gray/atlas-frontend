@@ -35,12 +35,12 @@ export function SentimentTrendChart() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h2 className="text-[15px] leading-[18px] font-bold text-heading">Tren sentimen</h2>
-          <p className="pt-1 text-[10px] leading-3 text-body">Perubahan sentimen pelanggan</p>
+          <p className="pt-1 text-[11px] leading-3 text-body">Perubahan sentimen pelanggan</p>
         </div>
         <button
           type="button"
           aria-label="Opsi tren sentimen"
-          className="flex size-6 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-surface-subtle"
+          className="flex size-6 shrink-0 items-center justify-center text-muted-foreground transition-colors hover:bg-surface-subtle"
         >
           <MoreHorizontal aria-hidden="true" className="size-[18px]" />
         </button>
@@ -48,7 +48,7 @@ export function SentimentTrendChart() {
 
       <ul className="mt-4 flex flex-wrap items-center gap-x-[17px] gap-y-2">
         {SENTIMENT_SUMMARY.map((item) => (
-          <li key={item.label} className="flex items-center gap-1.5 text-[10px] text-body">
+          <li key={item.label} className="flex items-center gap-1.5 text-[11px] text-body">
             <span className={cn('size-1.5 shrink-0 rounded-full', item.colorClass)} />
             <span>
               {item.label} <CountUp value={item.value} className="font-medium" />

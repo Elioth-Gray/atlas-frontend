@@ -17,6 +17,11 @@ export const NAV_LINKS: NavLink[] = [
 export interface Feature {
   title: string
   description: string
+  /** Captures of the real screen in each theme, shown to match the landing's theme */
+  images: Record<'light' | 'dark', string>
+  alt: string
+  /** A cropped panel shown whole, instead of a full screen cropped to the main column */
+  isPanel?: boolean
 }
 
 export const FEATURES: Feature[] = [
@@ -24,21 +29,42 @@ export const FEATURES: Feature[] = [
     title: 'Kumpulkan Feedback',
     description:
       'Buat QR code unik untuk bisnis Anda agar pelanggan dapat berbagi pengalaman tanpa membuat akun.',
+    images: {
+      dark: '/images/screens/buat-qr-dark.webp',
+      light: '/images/screens/buat-qr-light.webp',
+    },
+    alt: 'Halaman Buat QR di ATLAS: form bisnis, link feedback publik, dan preview poster QR',
   },
   {
     title: 'Pahami Setiap Ulasan',
     description:
       'ATLAS menganalisis feedback, mengenali aspek terkait, dan mengidentifikasi sentimen dengan AI.',
+    images: {
+      dark: '/images/screens/dashboard-dark.webp',
+      light: '/images/screens/dashboard-light.webp',
+    },
+    alt: 'Dashboard ATLAS dengan tren sentimen, jumlah ulasan, dan keluhan terbanyak',
   },
   {
     title: 'Lihat Gambaran Besarnya',
     description:
       'Jelajahi masalah berulang di galaksi interaktif. Planet besar menandakan prioritas lebih tinggi.',
+    images: {
+      dark: '/images/screens/grup-feedback-dark.webp',
+      light: '/images/screens/grup-feedback-light.webp',
+    },
+    alt: 'Peta Feedback Galaxy di halaman Grup Feedback, tiap planet satu kelompok masalah',
   },
   {
     title: 'Wujudkan Insight',
     description:
       'Dapatkan saran perbaikan sesuai feedback pelanggan dan konteks bisnis, lalu pantau tindakan Anda.',
+    images: {
+      dark: '/images/screens/keluhan-terbanyak-dark.webp',
+      light: '/images/screens/keluhan-terbanyak-light.webp',
+    },
+    alt: 'Daftar keluhan terbanyak di dashboard ATLAS, diurutkan dari yang paling sering disebut',
+    isPanel: true,
   },
 ]
 
@@ -69,6 +95,13 @@ export const STEPS: Step[] = [
     description: 'Tinjau Galaxy, rekomendasi, dan langkah perbaikan Anda.',
     icon: Telescope,
   },
+]
+
+export const GALAXY_FACTS = [
+  'Tiap planet mewakili satu masalah dalam feedback.',
+  'Planet besar menandakan prioritas lebih tinggi.',
+  'Masalah terkait dikelompokkan secara visual.',
+  'Pilih planet untuk melihat masalah dan rekomendasi.',
 ]
 
 export interface FaqItem {

@@ -14,11 +14,11 @@ interface ReviewFilterProps {
 
 function ReviewFilter({ label, options, icon: Icon }: ReviewFilterProps) {
   return (
-    <label className="relative flex h-[34px] items-center rounded-[10px] border border-border bg-surface-subtle pr-8 pl-2.5 text-[10.5px] text-body focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-secondary">
+    <label className="relative flex h-[34px] items-center border border-field bg-surface-subtle pr-8 pl-2.5 text-[11px] text-body focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-secondary">
       {Icon && (
         <Icon
           aria-hidden="true"
-          className="mr-1.5 size-[15px] shrink-0 text-[#898B9D]"
+          className="mr-1.5 size-[15px] shrink-0 text-icon"
           strokeWidth={1.4}
         />
       )}
@@ -26,7 +26,7 @@ function ReviewFilter({ label, options, icon: Icon }: ReviewFilterProps) {
       <select
         aria-label={label}
         defaultValue={options[0]}
-        className="cursor-pointer appearance-none bg-transparent text-[10.5px] text-body outline-none"
+        className="cursor-pointer appearance-none bg-transparent text-[11px] text-body outline-none"
       >
         {options.map((option) => (
           <option key={option}>{option}</option>
@@ -34,7 +34,7 @@ function ReviewFilter({ label, options, icon: Icon }: ReviewFilterProps) {
       </select>
       <ChevronDown
         aria-hidden="true"
-        className="pointer-events-none absolute right-2.5 size-[15px] text-[#898B9D]"
+        className="pointer-events-none absolute right-2.5 size-[15px] text-icon"
         strokeWidth={1.4}
       />
     </label>
@@ -49,7 +49,7 @@ export function ImportedReviews() {
           <h2 className="text-[15px] leading-[18px] font-bold text-heading">
             Ulasan impor terbaru
           </h2>
-          <p className="pt-1 text-[10px] leading-3 text-body">
+          <p className="pt-1 text-[11px] leading-3 text-body">
             Ulasan terbaru dari profil Google Business yang terhubung
           </p>
         </div>
@@ -67,7 +67,7 @@ export function ImportedReviews() {
           <button
             type="button"
             aria-label="Filter ulasan"
-            className="flex size-[34px] items-center justify-center rounded-[10px] border border-border bg-surface-subtle text-[#8A8B9C] transition-colors hover:bg-surface"
+            className="flex size-[34px] items-center justify-center border border-border bg-surface-subtle text-icon transition-colors hover:bg-surface"
           >
             <SlidersHorizontal aria-hidden="true" className="size-4" strokeWidth={1.4} />
           </button>
@@ -81,17 +81,17 @@ export function ImportedReviews() {
             className="grid gap-1.5 border-t border-border py-[13px] first:border-t-0 first:pt-0 last:pb-0 sm:grid-cols-[150px_100px_minmax(0,1fr)_auto] sm:items-start sm:gap-3"
           >
             <div>
-              <p className="text-[10.5px] leading-[15px] font-bold text-body">{review.author}</p>
-              <p className="pt-[3px] text-[10px] leading-3 text-muted-foreground">
+              <p className="text-[11px] leading-[15px] font-bold text-body">{review.author}</p>
+              <p className="pt-[3px] text-[11px] leading-3 text-muted-foreground">
                 {review.source}
               </p>
             </div>
 
             <StarRating rating={review.rating} />
 
-            <p className="text-[10.5px] leading-[15px] text-body">{review.text}</p>
+            <p className="text-[11px] leading-[15px] text-body">{review.text}</p>
 
-            <p className="text-[10px] whitespace-nowrap text-muted-foreground sm:text-right">
+            <p className="text-[11px] whitespace-nowrap text-muted-foreground sm:text-right">
               {review.received}
             </p>
           </li>

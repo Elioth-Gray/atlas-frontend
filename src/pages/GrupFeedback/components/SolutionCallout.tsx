@@ -18,7 +18,7 @@ interface SolutionCalloutProps {
 }
 
 const BUTTON_CLASS =
-  'flex h-[34px] flex-1 items-center justify-center gap-1.5 rounded-[9px] px-3 text-[10px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-galaxy-accent'
+  'flex h-[34px] flex-1 items-center justify-center gap-1.5 px-3 text-[11px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-galaxy-accent'
 
 function downloadSummary(topic: FeedbackTopic, solution: TopicSolution) {
   const blob = new Blob([createSolutionSummary(topic, solution)], {
@@ -48,13 +48,13 @@ export function SolutionCallout({
       ref={ref}
       aria-labelledby={`solution-${topic.id}`}
       className={cn(
-        'flex flex-col overflow-hidden rounded-[16px] bg-galaxy-panel/90 text-galaxy-text shadow-[0_18px_50px_rgba(40,24,110,0.18)] ring-1 ring-galaxy-line backdrop-blur-md dark:shadow-[0_18px_50px_rgba(5,3,20,0.55)]',
+        'flex flex-col overflow-hidden bg-galaxy-panel/90 text-galaxy-text shadow-panel ring-1 ring-galaxy-line',
         className
       )}
     >
       <div className="flex items-start gap-3 border-b border-galaxy-line px-4 pt-4 pb-3">
         <span
-          className="mt-0.5 size-9 shrink-0 rounded-full shadow-[0_0_18px_rgba(124,92,255,0.35)]"
+          className="mt-0.5 size-9 shrink-0 rounded-full"
           style={{
             background: `radial-gradient(circle at 35% 30%, ${topic.colors[0]}, ${topic.colors[1]} 55%, ${topic.colors[2]})`,
           }}
@@ -62,21 +62,21 @@ export function SolutionCallout({
         <div className="min-w-0 flex-1">
           <h2
             id={`solution-${topic.id}`}
-            className="flex items-center gap-1 text-[10px] leading-3 font-semibold tracking-[1.4px] text-galaxy-accent uppercase"
+            className="flex items-center gap-1 text-[12px] leading-4 font-semibold text-galaxy-accent"
           >
             <Sparkles aria-hidden="true" className="size-3" strokeWidth={2} />
             Solusi Feedback AI
           </h2>
           <p className="pt-1 text-[14px] leading-5 font-semibold">{topic.label}</p>
-          <p className="text-[10px] leading-3 text-galaxy-subtle">
-            {topic.count} sebutan · Prioritas {topic.priority.toLowerCase()}
+          <p className="text-[11px] leading-3 text-galaxy-subtle">
+            {topic.count} sebutan, prioritas {topic.priority.toLowerCase()}
           </p>
         </div>
         <button
           type="button"
           aria-label="Tutup solusi"
           onClick={onClose}
-          className="flex size-7 shrink-0 items-center justify-center rounded-lg text-galaxy-subtle transition-colors hover:bg-galaxy-soft hover:text-galaxy-text focus-visible:outline-2 focus-visible:outline-galaxy-accent"
+          className="flex size-7 shrink-0 items-center justify-center text-galaxy-subtle transition-colors hover:bg-galaxy-soft hover:text-galaxy-text focus-visible:outline-2 focus-visible:outline-galaxy-accent"
         >
           <X aria-hidden="true" className="size-4" strokeWidth={1.8} />
         </button>
@@ -104,7 +104,7 @@ export function SolutionCallout({
           onClick={() => setIsSaved((saved) => !saved)}
           className={cn(
             BUTTON_CLASS,
-            'bg-linear-to-br from-[#9172FF] to-[#7048E5] text-white hover:opacity-90'
+            'bg-primary text-white hover:bg-primary-hover hover:opacity-90'
           )}
         >
           {isSaved ? (

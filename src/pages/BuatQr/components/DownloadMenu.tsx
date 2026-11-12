@@ -12,7 +12,7 @@ interface DownloadMenuProps {
 }
 
 const TRIGGER_CLASS =
-  'flex h-[37px] items-center justify-center gap-[7px] rounded-[9px] bg-linear-to-br from-[#9172FF] to-[#7048E5] px-3.5 text-[10px] font-semibold text-white shadow-card transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary'
+  'flex h-[37px] items-center justify-center gap-[7px] bg-primary hover:bg-primary-hover px-3.5 text-[11px] font-semibold text-white shadow-card transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary'
 
 export function DownloadMenu({ label, onSelect }: DownloadMenuProps) {
   return (
@@ -28,17 +28,17 @@ export function DownloadMenu({ label, onSelect }: DownloadMenuProps) {
 
       <Menu.Portal>
         <Menu.Positioner sideOffset={6} align="end" className="z-50">
-          <Menu.Popup className="min-w-[200px] rounded-[12px] border border-border bg-surface p-1.5 shadow-card outline-none">
+          <Menu.Popup className="min-w-[200px] border border-border bg-surface p-1.5 shadow-card outline-none">
             {DOWNLOAD_FORMATS.map((option) => (
               <Menu.Item
                 key={option.id}
                 onClick={() => onSelect(option.id)}
-                className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2.5 py-2 text-[11px] text-body outline-none select-none data-highlighted:bg-surface-subtle"
+                className="flex cursor-pointer items-center gap-2.5 px-2.5 py-2 text-[11px] text-body outline-none select-none data-highlighted:bg-surface-subtle"
               >
                 {option.id === 'pdf' ? (
                   <FileText
                     aria-hidden="true"
-                    className="size-4 shrink-0 text-[#EF70AE]"
+                    className="size-4 shrink-0 text-sentiment-negative"
                     strokeWidth={1.6}
                   />
                 ) : (
@@ -50,7 +50,7 @@ export function DownloadMenu({ label, onSelect }: DownloadMenuProps) {
                 )}
                 <span className="flex min-w-0 flex-col">
                   <span className="font-semibold">{option.label}</span>
-                  <span className="pt-0.5 text-[9.5px] leading-none text-muted-foreground">
+                  <span className="pt-0.5 text-[11px] leading-none text-muted-foreground">
                     {option.description}
                   </span>
                 </span>

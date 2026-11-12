@@ -9,11 +9,11 @@ interface FilterSelectProps {
 
 export function FilterSelect({ label, options, icon: Icon }: FilterSelectProps) {
   return (
-    <label className="relative flex h-[34px] items-center rounded-[10px] border border-border bg-surface-subtle pr-2 pl-2.5 text-[11px] text-body focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-secondary">
+    <label className="relative flex h-[34px] items-center border border-field bg-surface-subtle pr-2 pl-2.5 text-[11px] text-body focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-secondary">
       {Icon && (
         <Icon
           aria-hidden="true"
-          className="mr-1.5 size-[15px] shrink-0 text-[#898B9D]"
+          className="mr-1.5 size-[15px] shrink-0 text-icon"
           strokeWidth={1.4}
         />
       )}
@@ -28,7 +28,7 @@ export function FilterSelect({ label, options, icon: Icon }: FilterSelectProps) 
       </select>
       <ChevronDown
         aria-hidden="true"
-        className="pointer-events-none -ml-4 size-[15px] shrink-0 text-[#898B9D]"
+        className="pointer-events-none -ml-4 size-[15px] shrink-0 text-icon"
         strokeWidth={1.4}
       />
     </label>

@@ -52,14 +52,14 @@ export function BusinessProfileCard({ values, onChange }: BusinessProfileCardPro
     <Card className="p-5" label="Profil bisnis">
       <div className="border-b border-border pb-[15px]">
         <h2 className="text-[15px] leading-[18px] font-bold text-heading">Profil bisnis</h2>
-        <p className="pt-1 text-[10px] leading-3 text-body">
+        <p className="pt-1 text-[11px] leading-3 text-body">
           Perbarui tampilan profil bisnismu di ATLAS.
         </p>
       </div>
 
       <div className="grid gap-6 pt-[18px] lg:grid-cols-[225px_minmax(0,1fr)]">
         <div className="flex items-start gap-[14px]">
-          <div className="flex size-[65px] shrink-0 items-center justify-center overflow-hidden rounded-[16px] bg-linear-to-br from-[#745DC7] to-[#2A274C] text-[15px] text-white">
+          <div className="flex size-[65px] shrink-0 items-center justify-center overflow-hidden bg-primary text-[15px] text-white">
             {logoPreview ? (
               <img
                 src={logoPreview}
@@ -72,8 +72,8 @@ export function BusinessProfileCard({ values, onChange }: BusinessProfileCardPro
           </div>
 
           <div className="min-w-0 flex-1">
-            <p className="text-[10px] leading-[13.5px] font-bold text-body">Logo bisnis</p>
-            <p className="pt-[3px] text-[10px] leading-3 text-muted-foreground">
+            <p className="text-[11px] leading-[13.5px] font-bold text-body">Logo bisnis</p>
+            <p className="pt-[3px] text-[11px] leading-3 text-muted-foreground">
               PNG, JPG, atau SVG. Maks. 2 MB.
             </p>
 
@@ -87,14 +87,14 @@ export function BusinessProfileCard({ values, onChange }: BusinessProfileCardPro
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="mt-2 flex h-[27px] items-center gap-[5px] rounded-[9px] border border-border bg-surface px-2 text-[10px] font-semibold text-body transition-colors hover:bg-surface-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+              className="mt-2 flex h-8 items-center gap-[5px] border border-border bg-surface px-2 text-[11px] font-semibold text-body transition-colors hover:bg-surface-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
             >
               <Upload aria-hidden="true" className="size-3.5" strokeWidth={1.8} />
               Upload logo baru
             </button>
 
             {logoError && (
-              <p role="alert" className="pt-1.5 text-[10px] leading-3 text-[#D14343]">
+              <p role="alert" className="pt-1.5 text-[11px] leading-3 text-danger">
                 {logoError}
               </p>
             )}

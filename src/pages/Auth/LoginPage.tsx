@@ -37,23 +37,14 @@ export default function LoginPage() {
   }
 
   return (
-    <AuthShell>
-      <title>Masuk — {APP_NAME}</title>
+    <AuthShell
+      title="Masuk ke ATLAS"
+      description="Lanjutkan perjalanan Anda memahami pelanggan dan menumbuhkan bisnis."
+    >
+      <title>Masuk | {APP_NAME}</title>
 
-      <div className="w-full max-w-[440px] rounded-[28px] border border-border bg-surface/90 p-6 shadow-[0_36px_90px_-38px_rgba(76,29,149,0.5)] backdrop-blur-xl sm:p-9">
-        <div className="text-center">
-          <span className="inline-flex items-center rounded-full border border-primary/15 bg-primary/5 px-3 py-1 text-[10px] font-semibold tracking-[0.18em] text-primary dark:border-secondary/25 dark:bg-secondary/10 dark:text-secondary">
-            SELAMAT DATANG KEMBALI
-          </span>
-          <h1 className="mt-3 text-[26px] leading-tight font-semibold tracking-[-0.025em] text-heading sm:text-[30px]">
-            Masuk ke ATLAS
-          </h1>
-          <p className="mx-auto mt-2 max-w-xs text-[12px] leading-6 text-body">
-            Lanjutkan perjalanan Anda memahami pelanggan dan menumbuhkan bisnis.
-          </p>
-        </div>
-
-        <form onSubmit={onSubmit} noValidate className="mt-7 flex flex-col gap-4">
+      <div>
+        <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4">
           <AuthInput
             id="login-email"
             label="Email"
@@ -85,7 +76,7 @@ export default function LoginPage() {
             <label className="flex cursor-pointer items-center gap-2 text-[11px] text-body">
               <input
                 type="checkbox"
-                className="size-4 rounded border-border accent-primary"
+                className="size-4 border-field accent-primary"
                 {...register('remember')}
               />
               Ingat saya
@@ -102,7 +93,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="mt-1 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-linear-to-r from-[#8B5CF6] to-[#6D28D9] text-sm font-semibold text-white shadow-[0_16px_32px_-14px_rgba(109,40,217,0.8)] transition duration-200 hover:opacity-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary disabled:cursor-not-allowed disabled:opacity-70"
+            className="mt-1 flex h-10 w-full items-center justify-center gap-2 bg-primary text-sm font-semibold text-white transition duration-200 hover:bg-primary-hover hover:opacity-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary disabled:cursor-not-allowed disabled:opacity-70"
           >
             {isSubmitting ? (
               <>
@@ -118,9 +109,9 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="my-6 h-px bg-border" />
+        <div className="my-5 h-px bg-border" />
 
-        <p className="text-center text-[12px] text-body">
+        <p className="text-center text-[13px] text-body">
           Belum punya akun?{' '}
           <Link
             to="/signup"

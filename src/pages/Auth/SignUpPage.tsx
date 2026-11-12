@@ -9,11 +9,14 @@ import {
   Tag,
   User,
 } from 'lucide-react'
-import type { FormEvent } from 'react'
+import type { FormEvent, KeyboardEvent } from 'react'
+import { useState } from 'react'
+import type { FieldErrors } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router'
 
 import { APP_NAME } from '@/constants'
+import { cn } from '@/utils/cn'
 
 import { AuthShell } from './AuthShell'
 import { AuthInput, AuthPasswordField, AuthSelect } from './components/AuthField'
@@ -53,42 +56,127 @@ const EMPTY_FORM: SignUpValues = {
   confirmPassword: '',
 }
 
+// The form is split in two sections the owner can switch between; both stay in one form
+const SECTIONS = [
+  {
+    id: 'akun',
+    label: 'Data akun',
+    fields: ['fullName', 'email', 'password', 'confirmPassword'],
+  },
+  {
+    id: 'bisnis',
+    label: 'Data bisnis',
+    fields: ['businessName', 'category', 'city', 'businessScale'],
+  },
+] as const satisfies readonly {
+  id: string
+  label: string
+  fields: readonly (keyof SignUpValues)[]
+}[]
+
+type SectionId = (typeof SECTIONS)[number]['id']
+
+const SECONDARY_BUTTON_CLASS =
+  'flex h-10 items-center justify-center border border-body px-4 text-sm font-semibold text-heading transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary active:translate-y-px'
+
 export default function SignUpPage() {
   const navigate = useNavigate()
+  const [activeSection, setActiveSection] = useState<SectionId>('akun')
+  // The slide only plays after the first switch, so the form does not move on page load
+  const [hasSwitched, setHasSwitched] = useState(false)
   const {
     register,
     handleSubmit,
     getValues,
+    trigger,
     formState: { errors, isSubmitting },
   } = useForm<SignUpValues>({ mode: 'onTouched', defaultValues: EMPTY_FORM })
+
+  function showSectionWithErrors(fieldErrors: FieldErrors<SignUpValues>) {
+    const section = SECTIONS.find(({ fields }) => fields.some((field) => field in fieldErrors))
+    if (section) switchSection(section.id)
+  }
+
+  function switchSection(id: SectionId) {
+    if (id === activeSection) return
+    setHasSwitched(true)
+    setActiveSection(id)
+  }
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     void handleSubmit(async () => {
       // Frontend demo: replace with the sign-up endpoint once authentication is available.
       await new Promise((resolve) => setTimeout(resolve, 650))
       void navigate('/dashboard', { replace: true })
-    })(event)
+    }, showSectionWithErrors)(event)
+  }
+
+  async function goToBusinessSection() {
+    const isAccountValid = await trigger([...SECTIONS[0].fields])
+    if (isAccountValid) switchSection('bisnis')
+  }
+
+  function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
+    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return
+    event.preventDefault()
+    const next = activeSection === 'akun' ? 'bisnis' : 'akun'
+    switchSection(next)
+    document.getElementById(`signup-tab-${next}`)?.focus()
   }
 
   return (
-    <AuthShell>
-      <title>Daftar — {APP_NAME}</title>
+    <AuthShell
+      title="Mulai Berkembang bersama ATLAS"
+      description="Buat akun bisnis dan ubah masukan pelanggan menjadi wawasan yang bisa ditindaklanjuti."
+    >
+      <title>Daftar | {APP_NAME}</title>
 
-      <div className="w-full max-w-[640px] rounded-[28px] border border-border bg-surface/90 p-6 shadow-[0_36px_90px_-38px_rgba(76,29,149,0.5)] backdrop-blur-xl sm:p-9">
-        <div className="text-center">
-          <span className="inline-flex items-center rounded-full border border-primary/15 bg-primary/5 px-3 py-1 text-[10px] font-semibold tracking-[0.18em] text-primary dark:border-secondary/25 dark:bg-secondary/10 dark:text-secondary">
-            AKUN BISNIS
-          </span>
-          <h1 className="mt-3 text-[26px] leading-tight font-semibold tracking-[-0.025em] text-heading sm:text-[30px]">
-            Mulai Berkembang bersama ATLAS
-          </h1>
-          <p className="mx-auto mt-2 max-w-md text-[12px] leading-6 text-body">
-            Buat akun bisnis dan ubah masukan pelanggan menjadi wawasan yang bisa ditindaklanjuti.
-          </p>
+      <div>
+        <div
+          role="tablist"
+          aria-label="Bagian formulir pendaftaran"
+          className="relative grid grid-cols-2 border-b border-border"
+        >
+          <span
+            aria-hidden="true"
+            className={cn(
+              'absolute bottom-[-1px] left-0 h-0.5 w-1/2 bg-primary transition-transform duration-300 ease-out motion-reduce:transition-none',
+              activeSection === 'bisnis' && 'translate-x-full'
+            )}
+          />
+          {SECTIONS.map(({ id, label }, index) => {
+            const isActive = id === activeSection
+            return (
+              <button
+                key={id}
+                id={`signup-tab-${id}`}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                aria-controls={`signup-panel-${id}`}
+                tabIndex={isActive ? 0 : -1}
+                onClick={() => switchSection(id)}
+                onKeyDown={handleTabKeyDown}
+                className={cn(
+                  'flex h-10 items-center justify-center gap-2 text-[13px] font-semibold transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-secondary',
+                  isActive ? 'text-heading' : 'text-muted-foreground hover:text-heading'
+                )}
+              >
+                <span className="font-display text-base leading-none">{index + 1}</span>
+                {label}
+              </button>
+            )
+          })}
         </div>
 
-        <form onSubmit={onSubmit} noValidate className="mt-7">
-          <div className="grid gap-4 sm:grid-cols-2">
+        <form onSubmit={onSubmit} noValidate className="mt-5">
+          <div
+            id="signup-panel-akun"
+            role="tabpanel"
+            aria-labelledby="signup-tab-akun"
+            hidden={activeSection !== 'akun'}
+            className={cn('grid gap-4 sm:grid-cols-2', hasSwitched && 'animate-slide-from-left')}
+          >
             <div className="sm:col-span-2">
               <AuthInput
                 id="full-name"
@@ -120,6 +208,41 @@ export default function SignUpPage() {
               />
             </div>
 
+            <AuthPasswordField
+              id="password"
+              label="Kata Sandi"
+              icon={Lock}
+              placeholder="Minimal 8 karakter"
+              autoComplete="new-password"
+              error={errors.password?.message}
+              {...register('password', {
+                required: 'Kata sandi wajib diisi.',
+                minLength: { value: 8, message: 'Kata sandi minimal 8 karakter.' },
+              })}
+            />
+
+            <AuthPasswordField
+              id="confirm-password"
+              label="Konfirmasi Kata Sandi"
+              icon={Lock}
+              placeholder="Ulangi kata sandi"
+              autoComplete="new-password"
+              error={errors.confirmPassword?.message}
+              {...register('confirmPassword', {
+                required: 'Konfirmasi kata sandi wajib diisi.',
+                validate: (value) => value === getValues('password') || 'Kata sandi belum sama.',
+                deps: ['password'],
+              })}
+            />
+          </div>
+
+          <div
+            id="signup-panel-bisnis"
+            role="tabpanel"
+            aria-labelledby="signup-tab-bisnis"
+            hidden={activeSection !== 'bisnis'}
+            className={cn('grid gap-4 sm:grid-cols-2', hasSwitched && 'animate-slide-from-right')}
+          >
             <AuthInput
               id="business-name"
               label="Nama Bisnis"
@@ -159,57 +282,50 @@ export default function SignUpPage() {
               error={errors.businessScale?.message}
               {...register('businessScale', { required: 'Skala bisnis wajib diisi.' })}
             />
-
-            <AuthPasswordField
-              id="password"
-              label="Kata Sandi"
-              icon={Lock}
-              placeholder="Minimal 8 karakter"
-              autoComplete="new-password"
-              error={errors.password?.message}
-              {...register('password', {
-                required: 'Kata sandi wajib diisi.',
-                minLength: { value: 8, message: 'Kata sandi minimal 8 karakter.' },
-              })}
-            />
-
-            <AuthPasswordField
-              id="confirm-password"
-              label="Konfirmasi Kata Sandi"
-              icon={Lock}
-              placeholder="Ulangi kata sandi"
-              autoComplete="new-password"
-              error={errors.confirmPassword?.message}
-              {...register('confirmPassword', {
-                required: 'Konfirmasi kata sandi wajib diisi.',
-                validate: (value) => value === getValues('password') || 'Kata sandi belum sama.',
-                deps: ['password'],
-              })}
-            />
           </div>
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="mt-6 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-linear-to-r from-[#8B5CF6] to-[#6D28D9] text-sm font-semibold text-white shadow-[0_16px_32px_-14px_rgba(109,40,217,0.8)] transition duration-200 hover:opacity-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary disabled:cursor-not-allowed disabled:opacity-70"
-          >
-            {isSubmitting ? (
-              <>
-                <LoaderCircle aria-hidden="true" className="size-4 animate-spin" />
-                Membuat akun...
-              </>
+          <div className="mt-6 grid grid-cols-[auto_minmax(0,1fr)] gap-3">
+            {activeSection === 'akun' ? (
+              <button
+                type="button"
+                onClick={() => void goToBusinessSection()}
+                className={SECONDARY_BUTTON_CLASS}
+              >
+                Lanjut
+              </button>
             ) : (
-              <>
-                Buat Akun
-                <ArrowRight aria-hidden="true" className="size-4" strokeWidth={2} />
-              </>
+              <button
+                type="button"
+                onClick={() => switchSection('akun')}
+                className={SECONDARY_BUTTON_CLASS}
+              >
+                Kembali
+              </button>
             )}
-          </button>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="flex h-10 w-full items-center justify-center gap-2 bg-primary text-sm font-semibold whitespace-nowrap text-primary-foreground transition-colors duration-200 hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary active:translate-y-px disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {isSubmitting ? (
+                <>
+                  <LoaderCircle aria-hidden="true" className="size-4 animate-spin" />
+                  Membuat akun...
+                </>
+              ) : (
+                <>
+                  Buat Akun
+                  <ArrowRight aria-hidden="true" className="size-4" strokeWidth={2} />
+                </>
+              )}
+            </button>
+          </div>
         </form>
 
-        <div className="my-6 h-px bg-border" />
+        <div className="my-5 h-px bg-border" />
 
-        <p className="text-center text-[12px] text-body">
+        <p className="text-center text-[13px] text-body">
           Sudah punya akun?{' '}
           <Link
             to="/login"

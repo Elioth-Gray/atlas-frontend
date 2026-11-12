@@ -8,7 +8,7 @@ export function ErrorFallback({ resetErrorBoundary }: FallbackProps) {
       <button
         type="button"
         onClick={resetErrorBoundary}
-        className="text-sm text-primary underline-offset-4 hover:underline"
+        className="text-sm text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary active:translate-y-px disabled:cursor-not-allowed disabled:opacity-60"
       >
         Try again
       </button>

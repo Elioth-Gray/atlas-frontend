@@ -23,7 +23,7 @@ export function DashboardFilters() {
         <button
           type="button"
           aria-label="Filter lanjutan"
-          className="flex size-[34px] items-center justify-center rounded-[10px] border border-border bg-surface-subtle text-[#8A8B9C] transition-colors hover:bg-surface"
+          className="flex size-[34px] items-center justify-center border border-border bg-surface-subtle text-icon transition-colors hover:bg-surface active:translate-y-px"
         >
           <SlidersHorizontal aria-hidden="true" className="size-4" strokeWidth={1.4} />
         </button>

@@ -13,7 +13,7 @@ import { STATS } from './dashboardData'
 export default function DashboardPage() {
   return (
     <>
-      <title>Dashboard — {APP_NAME}</title>
+      <title>Dashboard | {APP_NAME}</title>
 
       <div className="flex flex-1 flex-col">
         <PageHeader title="Dashboard" subtitle="Semua feedback, dalam satu tampilan." />

@@ -42,7 +42,7 @@ export function TopComplaints() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h2 className="text-[15px] leading-[18px] font-bold text-heading">Keluhan terbanyak</h2>
-          <p className="pt-1 text-[10px] leading-3 text-body">
+          <p className="pt-1 text-[11px] leading-3 text-body">
             Dari <CountUp value={String(TOTAL_NEGATIVE)} /> komentar negatif
           </p>
         </div>
@@ -50,7 +50,7 @@ export function TopComplaints() {
           type="button"
           aria-disabled="true"
           title="Segera hadir"
-          className="flex shrink-0 items-center gap-1 text-[10px] leading-3 text-body"
+          className="flex shrink-0 items-center gap-1 text-[11px] leading-3 text-body"
         >
           Lihat grup
           <ChevronRight aria-hidden="true" className="size-3.5 text-muted-foreground" />
@@ -83,12 +83,12 @@ export function TopComplaints() {
               content={
                 <ChartTooltip<ComplaintItem> title={(item) => item.label} rows={tooltipRows} />
               }
-              cursor={{ fill: 'var(--color-surface-subtle)', radius: 6 }}
+              cursor={{ fill: 'var(--color-surface-subtle)', radius: 0 }}
             />
             <Bar
               dataKey="count"
-              radius={6}
-              background={{ fill: 'var(--color-surface-subtle)', radius: 6 }}
+              radius={0}
+              background={{ fill: 'var(--color-surface-subtle)', radius: 0 }}
               animationDuration={MOTION_MS}
               animationEasing="ease-out"
             >

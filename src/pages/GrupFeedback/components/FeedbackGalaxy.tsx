@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { useTheme } from '@/hooks/useTheme'
 import { cn } from '@/utils/cn'
+import type { Theme } from '@/utils/theme'
 
 import { FEEDBACK_TOPICS } from '../grupFeedbackData'
 import { TOPIC_SOLUTIONS } from '../solutionData'
@@ -17,13 +18,26 @@ interface FeedbackGalaxyProps {
   zoom: number
   label: string
   isFullscreen: boolean
+  /** Forces the scene's palette, for pages that keep one theme whatever the app setting */
+  theme?: Theme
+  /** Replaces the default size and space background */
+  className?: string
+  /** False shows the galaxy as a picture: no hover, no selection, nothing to focus */
+  isInteractive?: boolean
 }
 
 function supportsWebGL() {
   return typeof window !== 'undefined' && 'WebGL2RenderingContext' in window
 }
 
-export function FeedbackGalaxy({ zoom, label, isFullscreen }: FeedbackGalaxyProps) {
+export function FeedbackGalaxy({
+  zoom,
+  label,
+  isFullscreen,
+  theme: forcedTheme,
+  className,
+  isInteractive = true,
+}: FeedbackGalaxyProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const labelRefs = useRef<(HTMLButtonElement | null)[]>([])
   const panelRef = useRef<HTMLDivElement>(null)
@@ -34,7 +48,8 @@ export function FeedbackGalaxy({ zoom, label, isFullscreen }: FeedbackGalaxyProp
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [isSupported, setIsSupported] = useState(supportsWebGL)
-  const { theme } = useTheme()
+  const { theme: appTheme } = useTheme()
+  const theme = forcedTheme ?? appTheme
 
   const selectedTopic = FEEDBACK_TOPICS.find((topic) => topic.id === selectedId)
   const selectedSolution = selectedId ? TOPIC_SOLUTIONS[selectedId] : undefined
@@ -55,10 +70,13 @@ export function FeedbackGalaxy({ zoom, label, isFullscreen }: FeedbackGalaxyProp
           ring: ringRef.current,
         }),
         onHover: (topicId) => {
+          if (!isInteractive) return
           setHoveredId(topicId)
           if (topicId) playGalaxySound('hover')
         },
-        onSelect: setSelectedId,
+        onSelect: (topicId) => {
+          if (isInteractive) setSelectedId(topicId)
+        },
         animate: !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
         theme,
       })
@@ -73,7 +91,7 @@ export function FeedbackGalaxy({ zoom, label, isFullscreen }: FeedbackGalaxyProp
       scene.dispose()
       sceneRef.current = null
     }
-  }, [isSupported, theme])
+  }, [isSupported, theme, isInteractive])
 
   useEffect(() => {
     sceneRef.current?.setZoom(zoom)
@@ -104,11 +122,12 @@ export function FeedbackGalaxy({ zoom, label, isFullscreen }: FeedbackGalaxyProp
   return (
     <div
       ref={containerRef}
-      role="group"
+      role={isInteractive ? 'group' : 'img'}
       aria-label={label}
+      inert={!isInteractive}
       className={cn(
-        'relative overflow-hidden galaxy-space',
-        isFullscreen ? 'min-h-0 flex-1' : 'h-[420px] sm:h-[560px]'
+        'relative overflow-hidden',
+        className ?? cn('galaxy-space', isFullscreen ? 'min-h-0 flex-1' : 'h-[420px] sm:h-[560px]')
       )}
     >
       <div className="pointer-events-none absolute inset-0 z-10">
@@ -140,8 +159,8 @@ export function FeedbackGalaxy({ zoom, label, isFullscreen }: FeedbackGalaxyProp
         </>
       )}
 
-      {!selectedId && (
-        <p className="pointer-events-none absolute bottom-3 left-1/2 z-10 -translate-x-1/2 rounded-full bg-galaxy-panel/70 px-3 py-1 text-[10px] whitespace-nowrap text-galaxy-muted ring-1 ring-galaxy-line backdrop-blur-sm">
+      {isInteractive && !selectedId && (
+        <p className="pointer-events-none absolute bottom-3 left-1/2 z-10 -translate-x-1/2 bg-galaxy-panel/70 px-3 py-1 text-[11px] whitespace-nowrap text-galaxy-muted ring-1 ring-galaxy-line">
           Klik planet untuk melihat solusi AI
         </p>
       )}

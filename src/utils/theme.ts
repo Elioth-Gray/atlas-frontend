@@ -11,8 +11,19 @@ export function getStoredTheme(): Theme {
   }
 }
 
+// True once the visitor has picked a theme; pages with their own default (the landing) read it
+export function hasStoredTheme() {
+  try {
+    return localStorage.getItem(STORAGE_KEY) !== null
+  } catch {
+    return false
+  }
+}
+
 export function applyTheme(theme: Theme) {
   document.documentElement.classList.toggle('dark', theme === 'dark')
+  // The dark token block in index.css keys on this attribute
+  document.documentElement.dataset.theme = theme
 }
 
 export function saveTheme(theme: Theme) {

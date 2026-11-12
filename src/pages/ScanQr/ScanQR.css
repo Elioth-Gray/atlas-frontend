@@ -1,7 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+/* Hallmark · theme: Manifesto (by request) · tokens from src/index.css (the night set, the landing's dark sheet) · redesign: restyle · mobile-first: one phone screen, no scroll on a 375 x 667 viewport */
 
 /* =========================================
    ATLAS SCAN QR - MOBILE FEEDBACK
+   Locked to a phone column: full height on a phone, a centred phone-width column on wider screens.
+   The starry sky (StarrySky) sits fixed behind it
    ========================================= */
 
 .scan-page,
@@ -10,133 +12,69 @@
 }
 
 .scan-page {
-  --scan-bg: #070812;
-  --scan-surface: #151625;
-  --scan-primary: #8965f9;
-  --scan-secondary: #9879ff;
-  --scan-text: #f5f4fb;
-  --scan-muted: #85869c;
-
-  width: 100%;
-  max-width: 430px;
-  min-height: 100vh;
-  min-height: 100dvh;
-  margin: 0 auto;
-
-  background:
-    radial-gradient(ellipse at 85% 22%, rgba(109, 40, 217, 0.38), transparent 55%),
-    radial-gradient(ellipse at 5% 92%, rgba(102, 140, 255, 0.17), transparent 55%), #070812;
-
-  color: var(--scan-text);
-  font-family: 'Poppins', sans-serif;
   position: relative;
   isolation: isolate;
-  overflow: hidden;
-}
-
-.scan-page::before,
-.scan-page::after {
-  content: '';
-  position: absolute;
-  border: 1px solid rgba(152, 121, 255, 0.15);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.scan-page::before {
-  width: 380px;
-  height: 380px;
-  top: 120px;
-  left: -280px;
-}
-
-.scan-page::after {
-  width: 480px;
-  height: 480px;
-  right: -360px;
-  bottom: -250px;
-}
-
-/* =========================================
-   MAIN CONTAINER
-   ========================================= */
-
-.scan-container {
-  width: 100%;
-  max-width: 100%;
-  min-height: 100vh;
   min-height: 100dvh;
+  background: var(--color-night);
+  color: var(--color-night-text);
+  font-family: var(--font-sans);
+}
 
-  margin: 0;
-  padding: max(22px, env(safe-area-inset-top)) 24px max(26px, env(safe-area-inset-bottom));
+.scan-page :focus-visible {
+  outline: 2px solid var(--color-night-focus);
+  outline-offset: 3px;
+}
 
+.scan-shell {
+  width: 100%;
+  max-width: 430px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: max(16px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
-  position: relative;
 }
 
 /* =========================================
-   LOGO IMAGE
+   TOP BAR: back, the mark, the step
    ========================================= */
 
-.scan-logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 30px;
-  width: 100%;
-}
-
-/* =========================================
-   HEADER
-   ========================================= */
-
-.scan-header {
+.scan-topbar {
   display: grid;
-  grid-template-columns: 42px 1fr 42px;
+  grid-template-columns: 44px 1fr 44px;
   align-items: center;
-  gap: 8px;
-  min-height: 52px;
+  justify-items: center;
+  min-height: 44px;
 }
 
 .scan-back {
-  width: 42px;
-  height: 42px;
-
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
-
-  border-radius: 14px;
-  border: 1px solid #292840;
-  background: rgba(21, 22, 37, 0.8);
-  color: #f5f4fb;
+  border: 1px solid var(--color-night-line);
+  background: color-mix(in oklab, var(--color-night-surface) 80%, transparent);
+  color: var(--color-night-text);
   cursor: pointer;
+  transition:
+    border-color 200ms ease-out,
+    transform 120ms ease-out;
 }
 
-.scan-header-center {
-  text-align: center;
+.scan-back:hover {
+  border-color: var(--color-night-violet);
 }
 
-.scan-header-center span {
-  display: block;
-  color: #aaa2c8;
-  font-size: 9px;
-  letter-spacing: 1.8px;
+.scan-back:active {
+  transform: scale(0.94);
 }
 
-.scan-header-center h2 {
-  margin: 4px 0 0;
-  font-size: 17px;
-  font-weight: 600;
-  color: #f5f4fb;
-}
-
-.scan-page-number {
-  text-align: right;
-  color: #9879ff;
-  font-size: 14px;
-  font-weight: 600;
+.scan-step {
+  justify-self: end;
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 1;
+  color: var(--color-night-violet);
 }
 
 /* =========================================
@@ -145,38 +83,28 @@
 
 .scan-progress {
   display: flex;
-  width: 100%;
-  gap: 16px;
-  margin: 24px 0 32px;
+  gap: 8px;
+  margin: 16px 0 24px;
 }
 
 .scan-progress span {
   flex: 1;
-  height: 4px;
-  border-radius: 999px;
-  background: rgba(133, 134, 156, 0.2);
+  height: 3px;
+  background: color-mix(in oklab, var(--color-night-muted) 22%, transparent);
+  transform-origin: left;
 }
 
 .scan-progress .scan-progress-active {
-  background: linear-gradient(90deg, #8965f9, #b18aff);
+  background: var(--color-night-violet);
+  animation: scan-fill 700ms cubic-bezier(0.16, 1, 0.3, 1) 200ms both;
+}
+
+.scan-progress .scan-progress-active + .scan-progress-active {
+  animation-delay: 500ms;
 }
 
 /* =========================================
-   OUTLET
-   ========================================= */
-
-.scan-outlet {
-  margin: 0 0 34px;
-  text-align: center;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  color: #bda8ff;
-}
-
-/* =========================================
-   FEEDBACK FORM
+   CONTENT
    ========================================= */
 
 .scan-content {
@@ -186,132 +114,184 @@
   min-width: 0;
 }
 
-.scan-content h1 {
-  margin: 0;
-  font-size: clamp(23px, 6vw, 29px);
-  font-weight: 600;
-  line-height: 1.45;
-  text-align: center;
-  color: #f5f4fb;
-}
-
-.scan-content > p {
-  margin: 12px 0 25px;
-  text-align: center;
-  color: #a2a1b7;
-  font-size: 12px;
-  line-height: 1.7;
-}
-
 .scan-content form {
   flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 20px;
   min-width: 0;
-  padding-bottom: 0;
+}
+
+/* The question, with one hairline orbit turning slowly behind it */
+.scan-intro {
+  position: relative;
+  text-align: center;
+  padding: 4px 0 24px;
+}
+
+.scan-intro-orbit {
+  position: absolute;
+  inset: -8px 4px 4px;
+  z-index: -1;
+  border: 1px dashed var(--color-night-line);
+  border-radius: 50%;
+  transform: rotate(-12deg);
+  animation: scan-orbit 60s linear infinite;
+  pointer-events: none;
+}
+
+.scan-outlet {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-night-violet);
+}
+
+.scan-intro h1 {
+  margin: 0 auto;
+  max-width: 13ch;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 9vw, 38px);
+  font-weight: 400;
+  line-height: 1.02;
+  text-transform: uppercase;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  min-width: 0;
+  color: var(--color-night-text);
+}
+
+.scan-hint {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-night-soft);
 }
 
 /* =========================================
    STAR RATING
    ========================================= */
 
+.scan-rating {
+  border: 1px solid var(--color-night-line);
+  background: color-mix(in oklab, var(--color-night-surface) 75%, transparent);
+  padding: 8px 8px 12px;
+}
+
 .scan-stars {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 4px;
-
-  width: 100%;
-  min-height: 86px;
-
-  padding: 10px 12px;
-  margin-bottom: 34px;
-
-  border: 1px solid #2b2943;
-  border-radius: 23px;
-  background: rgba(21, 22, 37, 0.7);
+  gap: 2px;
 }
 
 .scan-stars button {
   flex: 1;
   min-width: 0;
-  height: 48px;
+  height: 52px;
   display: grid;
   place-items: center;
-
+  padding: 0;
   border: none;
   background: transparent;
+  color: var(--color-night-star-off);
   cursor: pointer;
-  padding: 0;
   -webkit-tap-highlight-color: transparent;
+  transition: color 160ms ease-out;
 }
 
-.scan-stars button:active {
-  transform: scale(0.94);
+.scan-stars button:hover {
+  color: color-mix(in oklab, var(--color-night-violet) 60%, var(--color-night-star-off));
+}
+
+.scan-stars button.is-filled {
+  color: var(--color-night-violet);
 }
 
 .scan-stars svg {
-  width: clamp(26px, 8vw, 36px);
-  height: clamp(26px, 8vw, 36px);
+  width: clamp(30px, 9vw, 38px);
+  height: clamp(30px, 9vw, 38px);
+}
+
+.scan-stars button.is-filled svg {
+  animation: scan-pop 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scan-stars button:active svg {
+  transform: scale(0.9);
+}
+
+.scan-rating-label {
+  margin: 4px 0 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-night-soft);
 }
 
 /* =========================================
    COMMENT
    ========================================= */
 
+.scan-comment {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .scan-label {
   display: block;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   font-size: 14px;
-  font-weight: 500;
-  color: #f5f4fb;
+  font-weight: 600;
+  color: var(--color-night-text);
 }
 
 .scan-textarea-wrapper {
-  width: 100%;
   position: relative;
+  flex: 1;
+  display: flex;
 }
 
 .scan-textarea-wrapper textarea {
-  display: block;
+  flex: 1;
   width: 100%;
-  min-height: 165px;
-  padding: 18px 17px 40px;
-  resize: vertical;
-
-  border-radius: 21px;
-  border: 1px solid #302d48;
-  outline: none;
-
-  background: rgba(21, 22, 37, 0.72);
-  color: #f5f4fb;
-
-  font-family: 'Poppins', sans-serif;
-  font-size: 13px;
-  line-height: 1.7;
+  min-height: 112px;
+  padding: 12px 16px 32px;
+  resize: none;
+  border: 1px solid var(--color-night-field);
+  background: color-mix(in oklab, var(--color-night-surface) 75%, transparent);
+  color: var(--color-night-text);
+  font-family: var(--font-sans);
+  /* 16px keeps iOS from zooming in when the field gets focus */
+  font-size: 16px;
+  line-height: 1.5;
+  transition: border-color 200ms ease-out;
 }
 
 .scan-textarea-wrapper textarea::placeholder {
-  color: #85869c;
+  color: var(--color-night-muted);
 }
 
-.scan-textarea-wrapper textarea:focus {
-  border-color: #9879ff;
+.scan-textarea-wrapper textarea:focus-visible {
+  border-color: var(--color-night-violet);
+  outline: 2px solid var(--color-night-focus);
+  outline-offset: 2px;
 }
 
 .scan-counter {
   position: absolute;
-  right: 16px;
-  bottom: 13px;
-  font-size: 11px;
-  color: #85869c;
+  right: 12px;
+  bottom: 8px;
+  font-size: 12px;
+  color: var(--color-night-muted);
 }
 
 .scan-error {
-  color: #ffa0bb !important;
-  text-align: left !important;
-  font-size: 12px !important;
-  margin: 10px 0 !important;
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--color-night-error);
+  animation: scan-shake 320ms ease-out;
 }
 
 /* =========================================
@@ -321,34 +301,40 @@
 .scan-submit {
   flex-shrink: 0;
   width: 100%;
-  min-height: 58px;
-  padding: 14px 20px;
-
+  min-height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-
+  gap: 8px;
   border: none;
-  border-radius: 18px;
-
-  background: linear-gradient(110deg, #7046f5, #a377ff);
-  color: #fff;
-
-  font-family: 'Poppins', sans-serif;
-  font-size: 14px;
+  background: var(--color-night-button);
+  color: var(--color-night-on-button);
+  font-family: var(--font-sans);
+  font-size: 16px;
   font-weight: 600;
-
   cursor: pointer;
-  box-shadow: 0 12px 30px rgba(109, 40, 217, 0.24);
+  transition: background-color 200ms ease-out;
 }
 
-.scan-content .scan-submit {
-  margin-top: auto;
+.scan-submit svg {
+  transition: transform 200ms ease-out;
+}
+
+.scan-submit:hover {
+  background: color-mix(in oklab, var(--color-night-button) 88%, var(--color-night-text));
+}
+
+.scan-submit:hover svg {
+  transform: translateX(4px);
 }
 
 .scan-submit:active {
-  transform: scale(0.99);
+  transform: translateY(1px);
+}
+
+.scan-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 /* =========================================
@@ -360,20 +346,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  padding-top: clamp(50px, 11vh, 90px);
+  padding-bottom: 48px;
 }
 
 .scan-success-orbit {
   position: relative;
-  width: 220px;
-  height: 220px;
+  width: 208px;
+  height: 208px;
   display: grid;
   place-items: center;
-
+  margin-bottom: 32px;
   border-radius: 50%;
-  border: 1px solid rgba(152, 121, 255, 0.2);
-  margin-bottom: 48px;
+  border: 1px solid var(--color-night-line);
 }
 
 .scan-success-orbit::before {
@@ -381,128 +367,206 @@
   position: absolute;
   inset: 24px;
   border-radius: 50%;
-  border: 1px dashed rgba(152, 121, 255, 0.2);
+  border: 1px dashed var(--color-night-line);
+}
+
+/* The satellite rides the outer ring: a wrapper turns, the dot sits on its edge */
+.scan-success-satellite {
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  animation: scan-orbit 9s linear infinite;
+}
+
+.scan-success-satellite::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: calc(50% - 5px);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-night-violet);
 }
 
 .scan-success-circle {
-  width: 112px;
-  height: 112px;
+  width: 104px;
+  height: 104px;
   display: grid;
   place-items: center;
-
   border-radius: 50%;
-  background: linear-gradient(145deg, #a47cff, #6945e8);
-  color: white;
-  box-shadow: 0 0 55px rgba(137, 101, 249, 0.3);
-}
-
-.scan-success-label {
-  color: #b49aff;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
+  background: var(--color-night-button);
+  color: var(--color-night-on-button);
+  animation: scan-land 620ms cubic-bezier(0.16, 1, 0.3, 1) 150ms both;
 }
 
 .scan-success-content h1 {
-  margin: 30px 0 12px;
-  color: #f5f4fb;
-  font-size: 30px;
-  font-weight: 600;
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: clamp(40px, 12vw, 52px);
+  font-weight: 400;
+  line-height: 1.02;
+  text-transform: uppercase;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  min-width: 0;
+  color: var(--color-night-text);
 }
 
 .scan-success-content p {
   margin: 0;
-  color: #d2cfdf;
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-night-text);
 }
 
 .scan-success-content .scan-success-description {
-  max-width: 350px;
-  margin-top: 20px;
-  color: #a2a1b7;
-  font-size: 12px;
+  max-width: 30ch;
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--color-night-soft);
 }
 
 /* =========================================
-   VERY SMALL PHONES
+   MOTION: everything rises in once, in order
    ========================================= */
 
-@media (max-width: 360px) {
-  .scan-container {
-    padding-left: 17px;
-    padding-right: 17px;
+.scan-rise {
+  animation: scan-rise 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.scan-rise--2 {
+  animation-delay: 90ms;
+}
+
+.scan-rise--3 {
+  animation-delay: 180ms;
+}
+
+.scan-rise--4 {
+  animation-delay: 270ms;
+}
+
+.scan-rise--5 {
+  animation-delay: 360ms;
+}
+
+@keyframes scan-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes scan-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes scan-pop {
+  0% {
+    transform: scale(0.7);
+  }
+  60% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes scan-land {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scan-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes scan-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scan-rise,
+  .scan-progress .scan-progress-active,
+  .scan-intro-orbit,
+  .scan-stars button.is-filled svg,
+  .scan-error,
+  .scan-success-satellite,
+  .scan-success-circle {
+    animation: none;
   }
 
-  .scan-content h1 {
-    font-size: 22px;
-  }
-
-  .scan-stars {
-    padding: 8px;
-  }
-
-  .scan-stars svg {
-    width: 28px;
-    height: 28px;
-  }
-
-  .scan-success-orbit {
-    width: 185px;
-    height: 185px;
+  .scan-intro-orbit {
+    transform: rotate(-12deg);
   }
 }
 
 /* =========================================
-   SHORT SCREENS
+   SHORT PHONES (iPhone SE and similar)
    ========================================= */
 
-@media (max-height: 740px) {
-  .scan-logo {
-    margin-bottom: 18px;
-  }
-
+@media (max-height: 700px) {
   .scan-progress {
-    margin: 18px 0 22px;
+    margin: 12px 0 16px;
   }
 
-  .scan-outlet {
-    margin-bottom: 22px;
+  .scan-intro {
+    padding-bottom: 16px;
   }
 
-  .scan-stars {
-    margin-bottom: 24px;
+  .scan-content form {
+    gap: 16px;
+  }
+
+  .scan-stars button {
+    height: 44px;
   }
 
   .scan-textarea-wrapper textarea {
-    min-height: 135px;
+    min-height: 96px;
   }
 
-  .scan-content .scan-submit {
-    margin-top: 28px;
-  }
-
-  .scan-success-content {
-    padding-top: 35px;
+  .scan-success-orbit {
+    width: 176px;
+    height: 176px;
   }
 }
 
 /* =========================================
-   DESKTOP PREVIEW AS MOBILE
+   WIDER SCREENS: the same phone column, framed by hairlines
    ========================================= */
 
-@media (min-width: 431px) {
-  body:has(.scan-page) {
-    background: #262637;
-  }
-
-  .scan-page {
-    width: 430px;
-    max-width: 430px;
-  }
-
-  .scan-container {
-    width: 100%;
-    max-width: 100%;
+@media (min-width: 480px) {
+  .scan-shell {
+    border-inline: 1px solid var(--color-night-line);
+    background: color-mix(in oklab, var(--color-night) 70%, transparent);
   }
 }

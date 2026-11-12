@@ -20,16 +20,14 @@ export function PosterPreview({ theme, onDownload }: PosterPreviewProps) {
 
   return (
     <Card className="p-5" label="Preview poster">
-      <p className="text-center text-[10px] leading-[10.5px] font-semibold tracking-[1.4px] text-body">
-        PREVIEW POSTER
-      </p>
+      <p className="text-center text-[11px] leading-4 font-semibold text-body">Preview poster</p>
 
       <div className="mt-3.5 flex justify-center">
         <figure>
           <figcaption className="sr-only">Pratinjau poster QR feedback {BUSINESS.name}</figcaption>
           <div
             ref={posterRef}
-            className="relative flex h-[410px] w-[280px] max-w-full flex-col overflow-hidden rounded-[18px] border border-border p-[22px]"
+            className="relative flex h-[410px] w-[280px] max-w-full flex-col overflow-hidden border border-border p-[22px]"
             style={{
               backgroundColor: theme.background,
               backgroundImage: `radial-gradient(ellipse 92.79% 135.87% at 80% 25%, ${theme.glow} 0%, rgba(130, 97, 255, 0) 32%)`,
@@ -46,14 +44,14 @@ export function PosterPreview({ theme, onDownload }: PosterPreviewProps) {
               className="absolute top-[27px] left-[22px] z-20 flex items-center gap-[8.6px]"
             >
               <img
-                src="/images/ATLAS_Logo.png"
+                src={theme.logoSrc}
                 alt=""
-                width={512}
-                height={512}
+                width={64}
+                height={64}
                 className="size-[29.64px] shrink-0 object-contain"
               />
               <span
-                className="text-[12.48px] leading-none font-bold tracking-[2.34px]"
+                className="wordmark font-display text-[15px] leading-none font-normal tracking-[0.6px]"
                 style={{ color: theme.brandText }}
               >
                 ATLAS
@@ -86,13 +84,13 @@ export function PosterPreview({ theme, onDownload }: PosterPreviewProps) {
 
               <div
                 data-reveal="qr-box"
-                className="relative mt-2 overflow-hidden rounded-[12px] p-[14px]"
+                className="relative mt-2 overflow-hidden p-[14px]"
                 style={{ backgroundColor: theme.qrBox }}
               >
                 <span
                   data-reveal="scan"
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[3px] bg-white opacity-0 shadow-[0_0_14px_4px_rgba(201,184,255,0.85)]"
+                  className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[3px] bg-white opacity-0 shadow-scanline"
                 />
                 <QrCode
                   matrix={QR_MATRIX}
@@ -104,10 +102,10 @@ export function PosterPreview({ theme, onDownload }: PosterPreviewProps) {
 
               <p
                 data-reveal="item"
-                className="mt-[10px] text-center text-[10px] leading-none tracking-[0.7px]"
+                className="mt-[10px] text-center text-[10px] leading-none"
                 style={{ color: theme.body }}
               >
-                SCAN UNTUK KASIH FEEDBACK
+                Scan untuk kasih feedback
               </p>
 
               <p

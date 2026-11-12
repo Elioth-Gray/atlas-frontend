@@ -12,7 +12,7 @@ export function Card({ children, className, label }: CardProps) {
   return (
     <section
       aria-label={label}
-      className={cn('rounded-[14px] border border-border bg-surface shadow-card', className)}
+      className={cn('border border-border bg-surface shadow-card', className)}
     >
       {children}
     </section>

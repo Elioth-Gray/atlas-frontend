@@ -34,7 +34,7 @@ export default function BuatQrPage() {
 
   return (
     <>
-      <title>Buat QR — {APP_NAME}</title>
+      <title>Buat QR | {APP_NAME}</title>
 
       <div className="flex flex-1 flex-col">
         <PageHeader title="Buat QR" subtitle="Buat QR feedback untuk bisnismu." />

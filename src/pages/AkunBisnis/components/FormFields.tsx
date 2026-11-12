@@ -5,7 +5,7 @@ import type { ReactNode } from 'react'
 import { cn } from '@/utils/cn'
 
 const CONTROL_CLASS =
-  'h-10 w-full rounded-[9px] border border-border bg-surface-subtle px-[11px] text-[11px] text-body placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-secondary'
+  'h-10 w-full border border-field bg-surface-subtle px-[11px] text-[11px] text-body placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-secondary'
 
 interface FieldShellProps {
   id: string
@@ -16,7 +16,7 @@ interface FieldShellProps {
 function FieldShell({ id, label, children }: FieldShellProps) {
   return (
     <div>
-      <label htmlFor={id} className="block text-[10px] leading-3 text-body">
+      <label htmlFor={id} className="block text-[11px] leading-3 text-body">
         {label}
       </label>
       <div className="mt-1.5">{children}</div>
@@ -49,7 +49,7 @@ export function TextField({
         {Icon && (
           <Icon
             aria-hidden="true"
-            className="pointer-events-none absolute top-1/2 left-[11px] size-[15px] -translate-y-1/2 text-[#6D6F83]"
+            className="pointer-events-none absolute top-1/2 left-[11px] size-[15px] -translate-y-1/2 text-icon"
             strokeWidth={1.6}
           />
         )}
@@ -90,7 +90,7 @@ export function SelectField({ id, label, value, options, onChange }: SelectField
         </select>
         <ChevronDown
           aria-hidden="true"
-          className="pointer-events-none absolute top-1/2 right-3 size-[15px] -translate-y-1/2 text-[#6D6F83]"
+          className="pointer-events-none absolute top-1/2 right-3 size-[15px] -translate-y-1/2 text-icon"
           strokeWidth={1.6}
         />
       </div>

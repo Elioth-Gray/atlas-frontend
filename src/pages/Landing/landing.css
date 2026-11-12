@@ -1,0 +1,98 @@
+/* Hallmark · theme: Manifesto (by request) · genre: editorial · job: sign up · shape: Feature Stack (draw ed3180) · hero: Settled, type only (the creed centred in the first screen, two orbits behind it) · nav: edge-aligned · footer: colophon block · signature: the stacked creed at poster size, then the live Feedback Galaxy (three.js) as the picture under the galaxy statement · imagery: screenshots 4 (real routes, dark theme) and the live galaxy · brand: ATLAS violet as the one signal · redesign: full · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H5 E4 S5 R4 V4 · weakest: P, the copy is the owner's and stays, so the argument rides on the creed set at poster size over the real galaxy rather than on new words */
+/* Hallmark · dropped #galaxy, /grup-feedback, /feedback/outlet · the owner asked to remove the Lihat Demo Galaxy, Jelajahi Demo Galaxy and Mulai Feedback buttons; the nav still links to #galaxy */
+/* Hallmark · waive 38iii · one word, Pahami, in the hero head only · Manifesto names its one signal word in the creed as the theme's signature */
+/* Hallmark · waive 55b · each creed line is its own block with white-space nowrap, sized in cqi · the stacked creed is Manifesto's lockup and cannot wrap at 320px */
+/* Hallmark · waive 39b · the 36 to 40px buttons are the planet labels inside the live galaxy · they are the app's own Feedback Galaxy controls, kept as the user asked, not landing controls */
+/* Hallmark · waive 75 · the 10px text is the planet labels and hint inside the live galaxy · the galaxy is embedded unchanged from the Grup Feedback screen, as the user asked */
+/* Hallmark · waive 26b · the closing band holds one router link and no form control · a link on the violet band has no disabled state to style */
+/* Hallmark · dismissed 28a · the lazy images are the feature captures below the fold; the largest paint is the hero creed, which is text */
+
+/* Selection and focus on the dark sheet use the landing's own signal */
+.landing ::selection {
+  background-color: var(--color-sheet-signal);
+  color: var(--color-sheet-signal-ink);
+}
+
+.landing :focus-visible {
+  outline-color: var(--color-sheet-signal-text);
+}
+
+/* Step numerals come from the list itself, so the markup carries no label before each head */
+.landing-record {
+  counter-reset: step;
+}
+
+.landing-record > li {
+  counter-increment: step;
+}
+
+.landing-record > li::before {
+  content: counter(step);
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 2.4vw, 2.25rem);
+  line-height: 1;
+  color: var(--color-sheet-muted);
+}
+
+/* The page stacks above its starry sky (StarrySky, shared with sign-in and sign-up) */
+.landing {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Hero orbit: the dashed ring turns slowly, the planets bob on it */
+.landing-orbit {
+  animation: landing-orbit 120s linear infinite;
+}
+
+@keyframes landing-orbit {
+  from {
+    transform: rotate(-14deg);
+  }
+  to {
+    transform: rotate(346deg);
+  }
+}
+
+.landing-float {
+  animation: landing-float 8s ease-in-out infinite;
+}
+
+.landing-float--slow {
+  animation-duration: 12s;
+  animation-delay: -3s;
+}
+
+@keyframes landing-float {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-10px, 8px);
+  }
+}
+
+/* Sections rise in once as they enter. Only hidden after the script marks the page ready */
+@media (prefers-reduced-motion: no-preference) {
+  [data-js-reveal] [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  [data-js-reveal] [data-reveal][data-revealed] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-orbit,
+  .landing-float {
+    animation: none;
+  }
+}

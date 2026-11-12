@@ -18,7 +18,7 @@ export function OwnerContactCard({ values, onChange }: OwnerContactCardProps) {
     <Card className="p-5" label="Kontak pemilik">
       <div className="border-b border-border pb-[15px]">
         <h2 className="text-[15px] leading-[18px] font-bold text-heading">Kontak pemilik</h2>
-        <p className="pt-1 text-[10px] leading-3 text-body">
+        <p className="pt-1 text-[11px] leading-3 text-body">
           Kontak utama untuk notifikasi akun dan insight.
         </p>
       </div>

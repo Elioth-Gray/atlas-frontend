@@ -5,10 +5,8 @@ import type { TopicSolution } from '../solutionData'
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div className="border-t border-galaxy-line pt-3">
-      <h3 className="text-[10px] leading-3 font-semibold tracking-[1.2px] text-galaxy-subtle uppercase">
-        {title}
-      </h3>
-      <div className="pt-1.5 text-[10.5px] leading-[16px] text-galaxy-muted">{children}</div>
+      <h3 className="text-[11px] leading-4 font-semibold text-galaxy-subtle">{title}</h3>
+      <div className="pt-1.5 text-[11px] leading-[16px] text-galaxy-muted">{children}</div>
     </div>
   )
 }
@@ -22,21 +20,21 @@ export function SolutionDetails({ solution }: { solution: TopicSolution }) {
         <div
           className="flex size-[68px] shrink-0 items-center justify-center rounded-full"
           style={{
-            background: `conic-gradient(#A98BFF 0% ${scorePercent}%, var(--color-galaxy-track) ${scorePercent}% 100%)`,
+            background: `conic-gradient(var(--color-galaxy-accent) 0% ${scorePercent}%, var(--color-galaxy-track) ${scorePercent}% 100%)`,
           }}
         >
           <div className="flex size-[58px] flex-col items-center justify-center rounded-full bg-galaxy-panel">
             <span className="text-[19px] leading-6 font-bold">{solution.score}</span>
-            <span className="text-[9px] leading-3 text-galaxy-subtle">/ 10</span>
+            <span className="text-[11px] leading-3 text-galaxy-subtle">/ 10</span>
           </div>
         </div>
         <div className="min-w-0">
-          <p className="text-[10px] leading-3 text-galaxy-accent">{solution.scoreLabel}</p>
+          <p className="text-[11px] leading-3 text-galaxy-accent">{solution.scoreLabel}</p>
           <p className="pt-1 text-[15px] leading-5 font-semibold">{solution.title}</p>
         </div>
       </div>
 
-      <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[10px] bg-galaxy-line ring-1 ring-galaxy-line">
+      <dl className="grid grid-cols-2 gap-px overflow-hidden bg-galaxy-line ring-1 ring-galaxy-line">
         {[
           ['Dampak bisnis', solution.impact],
           ['Urgensi', solution.urgency],
@@ -44,8 +42,8 @@ export function SolutionDetails({ solution }: { solution: TopicSolution }) {
           ['Keyakinan AI', `${solution.confidence}%`],
         ].map(([label, value]) => (
           <div key={label} className="bg-galaxy-panel px-2.5 py-2">
-            <dt className="text-[9.5px] leading-3 text-galaxy-subtle">{label}</dt>
-            <dd className="pt-1 text-[10.5px] leading-[14px] font-semibold">{value}</dd>
+            <dt className="text-[11px] leading-3 text-galaxy-subtle">{label}</dt>
+            <dd className="pt-1 text-[11px] leading-[14px] font-semibold">{value}</dd>
           </div>
         ))}
       </dl>
@@ -53,15 +51,12 @@ export function SolutionDetails({ solution }: { solution: TopicSolution }) {
       <div className="space-y-2">
         {solution.scoreMetrics.map((metric) => (
           <div key={metric.label}>
-            <div className="flex justify-between text-[10px] leading-3 text-galaxy-muted">
+            <div className="flex justify-between text-[11px] leading-3 text-galaxy-muted">
               <span>{metric.label}</span>
               <span className="font-semibold text-galaxy-text">{metric.value}%</span>
             </div>
-            <div className="mt-1 h-[3px] rounded-full bg-galaxy-track">
-              <div
-                className="h-full rounded-full bg-linear-to-r from-[#7C5CFF] to-[#C9B8FF]"
-                style={{ width: `${metric.value}%` }}
-              />
+            <div className="mt-1 h-[3px] bg-galaxy-track">
+              <div className="h-full bg-galaxy-accent" style={{ width: `${metric.value}%` }} />
             </div>
           </div>
         ))}
@@ -69,7 +64,7 @@ export function SolutionDetails({ solution }: { solution: TopicSolution }) {
 
       <Section title="Kata pelanggan">
         <p>{solution.customerSummary}</p>
-        <blockquote className="mt-2 border-l-2 border-[#A98BFF] bg-galaxy-soft px-2.5 py-1.5 text-galaxy-muted italic">
+        <blockquote className="mt-2 border-l-2 border-galaxy-accent bg-galaxy-soft px-2.5 py-1.5 text-galaxy-muted italic">
           {solution.quote}
         </blockquote>
       </Section>
@@ -83,8 +78,8 @@ export function SolutionDetails({ solution }: { solution: TopicSolution }) {
           {solution.actionTitle}
         </p>
         <p className="pt-1">{solution.actionDescription}</p>
-        <div className="mt-2.5 rounded-[9px] bg-galaxy-positive-soft px-2.5 py-2 ring-1 ring-galaxy-positive/25">
-          <p className="text-[10px] leading-3 font-semibold text-galaxy-positive">Target hasil</p>
+        <div className="mt-2.5 bg-galaxy-positive-soft px-2.5 py-2 ring-1 ring-galaxy-positive/25">
+          <p className="text-[11px] leading-3 font-semibold text-galaxy-positive">Target hasil</p>
           <p className="pt-1 text-galaxy-muted">{solution.target}</p>
         </div>
       </Section>
