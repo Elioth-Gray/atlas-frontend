@@ -1,6 +1,9 @@
 import { createBrowserRouter, Navigate, type RouteObject } from 'react-router'
 
 import { RootLayout } from '@/components/layout/RootLayout'
+// Halaman customer tanpa layout Admin
+import ScanQRPage from '@/pages/ScanQr/ScanQRPage'
+import ScanQRSuccess from '@/pages/ScanQr/ScanQRSuccess'
 
 import {
   AkunBisnisPage,
@@ -11,6 +14,17 @@ import {
 } from './lazyPages'
 
 export const routes: RouteObject[] = [
+  // PUBLIC CUSTOMER ROUTES
+  {
+    path: '/feedback/outlet',
+    element: <ScanQRPage />,
+  },
+  {
+    path: '/feedback/outlet/success',
+    element: <ScanQRSuccess />,
+  },
+
+  // ADMIN ROUTES
   {
     element: <RootLayout />,
     children: [
@@ -19,7 +33,8 @@ export const routes: RouteObject[] = [
       { path: 'google-maps', element: <GoogleMapsPage /> },
       { path: 'grup-feedback', element: <GrupFeedbackPage /> },
       { path: 'akun-bisnis', element: <AkunBisnisPage /> },
-      // No 404 page yet, unknown paths go back to the home page
+
+      // Unknown paths redirect to Dashboard
       { path: '*', element: <Navigate to="/" replace /> },
     ],
   },
