@@ -1,0 +1,516 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* =========================================
+   ATLAS SCAN QR - MOBILE FEEDBACK
+   ========================================= */
+
+.scan-page,
+.scan-page * {
+  box-sizing: border-box;
+}
+
+.scan-page {
+  --scan-bg: #070812;
+  --scan-surface: #151625;
+  --scan-primary: #8965f9;
+  --scan-secondary: #9879ff;
+  --scan-text: #f5f4fb;
+  --scan-muted: #85869c;
+
+  width: 100%;
+  max-width: 430px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+
+  background:
+    radial-gradient(ellipse at 85% 22%, rgba(109, 40, 217, 0.38), transparent 55%),
+    radial-gradient(ellipse at 5% 92%, rgba(102, 140, 255, 0.17), transparent 55%), #070812;
+
+  color: var(--scan-text);
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.scan-page::before,
+.scan-page::after {
+  content: '';
+  position: absolute;
+  border: 1px solid rgba(152, 121, 255, 0.15);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.scan-page::before {
+  width: 380px;
+  height: 380px;
+  top: 120px;
+  left: -280px;
+}
+
+.scan-page::after {
+  width: 480px;
+  height: 480px;
+  right: -360px;
+  bottom: -250px;
+}
+
+/* =========================================
+   MAIN CONTAINER
+   ========================================= */
+
+.scan-container {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  margin: 0;
+  padding: max(22px, env(safe-area-inset-top)) 24px max(26px, env(safe-area-inset-bottom));
+
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* =========================================
+   LOGO IMAGE
+   ========================================= */
+
+.scan-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.scan-logo-image {
+  display: block;
+  width: 150px;
+  max-width: 80%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+.scan-header {
+  display: grid;
+  grid-template-columns: 42px 1fr 42px;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+}
+
+.scan-back {
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 14px;
+  border: 1px solid #292840;
+  background: rgba(21, 22, 37, 0.8);
+  color: #f5f4fb;
+  cursor: pointer;
+}
+
+.scan-header-center {
+  text-align: center;
+}
+
+.scan-header-center span {
+  display: block;
+  color: #aaa2c8;
+  font-size: 9px;
+  letter-spacing: 1.8px;
+}
+
+.scan-header-center h2 {
+  margin: 4px 0 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: #f5f4fb;
+}
+
+.scan-page-number {
+  text-align: right;
+  color: #9879ff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* =========================================
+   PROGRESS
+   ========================================= */
+
+.scan-progress {
+  display: flex;
+  width: 100%;
+  gap: 16px;
+  margin: 24px 0 32px;
+}
+
+.scan-progress span {
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(133, 134, 156, 0.2);
+}
+
+.scan-progress .scan-progress-active {
+  background: linear-gradient(90deg, #8965f9, #b18aff);
+}
+
+/* =========================================
+   OUTLET
+   ========================================= */
+
+.scan-outlet {
+  margin: 0 0 34px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #bda8ff;
+}
+
+/* =========================================
+   FEEDBACK FORM
+   ========================================= */
+
+.scan-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.scan-content h1 {
+  margin: 0;
+  font-size: clamp(23px, 6vw, 29px);
+  font-weight: 600;
+  line-height: 1.45;
+  text-align: center;
+  color: #f5f4fb;
+}
+
+.scan-content > p {
+  margin: 12px 0 25px;
+  text-align: center;
+  color: #a2a1b7;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.scan-content form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding-bottom: 0;
+}
+
+/* =========================================
+   STAR RATING
+   ========================================= */
+
+.scan-stars {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+
+  width: 100%;
+  min-height: 86px;
+
+  padding: 10px 12px;
+  margin-bottom: 34px;
+
+  border: 1px solid #2b2943;
+  border-radius: 23px;
+  background: rgba(21, 22, 37, 0.7);
+}
+
+.scan-stars button {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  display: grid;
+  place-items: center;
+
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.scan-stars button:active {
+  transform: scale(0.94);
+}
+
+.scan-stars svg {
+  width: clamp(26px, 8vw, 36px);
+  height: clamp(26px, 8vw, 36px);
+}
+
+/* =========================================
+   COMMENT
+   ========================================= */
+
+.scan-label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #f5f4fb;
+}
+
+.scan-textarea-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.scan-textarea-wrapper textarea {
+  display: block;
+  width: 100%;
+  min-height: 165px;
+  padding: 18px 17px 40px;
+  resize: vertical;
+
+  border-radius: 21px;
+  border: 1px solid #302d48;
+  outline: none;
+
+  background: rgba(21, 22, 37, 0.72);
+  color: #f5f4fb;
+
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.scan-textarea-wrapper textarea::placeholder {
+  color: #85869c;
+}
+
+.scan-textarea-wrapper textarea:focus {
+  border-color: #9879ff;
+}
+
+.scan-counter {
+  position: absolute;
+  right: 16px;
+  bottom: 13px;
+  font-size: 11px;
+  color: #85869c;
+}
+
+.scan-error {
+  color: #ffa0bb !important;
+  text-align: left !important;
+  font-size: 12px !important;
+  margin: 10px 0 !important;
+}
+
+/* =========================================
+   SUBMIT BUTTON
+   ========================================= */
+
+.scan-submit {
+  flex-shrink: 0;
+  width: 100%;
+  min-height: 58px;
+  padding: 14px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  border: none;
+  border-radius: 18px;
+
+  background: linear-gradient(110deg, #7046f5, #a377ff);
+  color: #fff;
+
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(109, 40, 217, 0.24);
+}
+
+.scan-content .scan-submit {
+  margin-top: auto;
+}
+
+.scan-submit:active {
+  transform: scale(0.99);
+}
+
+/* =========================================
+   SUCCESS PAGE
+   ========================================= */
+
+.scan-success-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: clamp(50px, 11vh, 90px);
+}
+
+.scan-success-orbit {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+  border: 1px solid rgba(152, 121, 255, 0.2);
+  margin-bottom: 48px;
+}
+
+.scan-success-orbit::before {
+  content: '';
+  position: absolute;
+  inset: 24px;
+  border-radius: 50%;
+  border: 1px dashed rgba(152, 121, 255, 0.2);
+}
+
+.scan-success-circle {
+  width: 112px;
+  height: 112px;
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+  background: linear-gradient(145deg, #a47cff, #6945e8);
+  color: white;
+  box-shadow: 0 0 55px rgba(137, 101, 249, 0.3);
+}
+
+.scan-success-label {
+  color: #b49aff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.scan-success-content h1 {
+  margin: 30px 0 12px;
+  color: #f5f4fb;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.scan-success-content p {
+  margin: 0;
+  color: #d2cfdf;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.scan-success-content .scan-success-description {
+  max-width: 350px;
+  margin-top: 20px;
+  color: #a2a1b7;
+  font-size: 12px;
+}
+
+/* =========================================
+   VERY SMALL PHONES
+   ========================================= */
+
+@media (max-width: 360px) {
+  .scan-container {
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+
+  .scan-content h1 {
+    font-size: 22px;
+  }
+
+  .scan-stars {
+    padding: 8px;
+  }
+
+  .scan-stars svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .scan-success-orbit {
+    width: 185px;
+    height: 185px;
+  }
+}
+
+/* =========================================
+   SHORT SCREENS
+   ========================================= */
+
+@media (max-height: 740px) {
+  .scan-logo {
+    margin-bottom: 18px;
+  }
+
+  .scan-progress {
+    margin: 18px 0 22px;
+  }
+
+  .scan-outlet {
+    margin-bottom: 22px;
+  }
+
+  .scan-stars {
+    margin-bottom: 24px;
+  }
+
+  .scan-textarea-wrapper textarea {
+    min-height: 135px;
+  }
+
+  .scan-content .scan-submit {
+    margin-top: 28px;
+  }
+
+  .scan-success-content {
+    padding-top: 35px;
+  }
+}
+
+/* =========================================
+   DESKTOP PREVIEW AS MOBILE
+   ========================================= */
+
+@media (min-width: 431px) {
+  body:has(.scan-page) {
+    background: #262637;
+  }
+
+  .scan-page {
+    width: 430px;
+    max-width: 430px;
+  }
+
+  .scan-container {
+    width: 100%;
+    max-width: 100%;
+  }
+}
