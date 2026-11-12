@@ -40,10 +40,13 @@ export default function BuatQrPage() {
         <PageHeader title="Buat QR" subtitle="Buat QR feedback untuk bisnismu." />
 
         <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 pt-[22px] pb-[50px] sm:px-7">
-          <DownloadMenu label="Unduh QR" onSelect={handleDownloadQr} />
-
-          <div className="mt-[18px] grid items-start gap-3 lg:grid-cols-[minmax(0,1fr)_340px]">
-            <QrForm />
+          <div className="grid items-start gap-3 lg:grid-cols-[minmax(0,1fr)_340px]">
+            <div className="flex flex-col gap-3">
+              <QrForm />
+              <div className="flex justify-start">
+                <DownloadMenu label="Unduh QR" onSelect={handleDownloadQr} />
+              </div>
+            </div>
             <PosterPreview theme={posterTheme} onDownload={handleDownloadPoster} />
           </div>
         </main>

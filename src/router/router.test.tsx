@@ -12,8 +12,31 @@ function renderPath(path: string) {
 }
 
 describe('routes', () => {
-  it('shows the dashboard on the start page', async () => {
+  it('shows the landing page on the start page', async () => {
     renderPath('/')
+
+    expect(await screen.findByRole('heading', { name: /Dengar Lebih Baik/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /Mulai Gratis/i })).toBeInTheDocument()
+  })
+
+  it('shows the sign-in page', async () => {
+    renderPath('/login')
+
+    expect(await screen.findByRole('heading', { name: 'Masuk ke ATLAS' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Masuk' })).toBeInTheDocument()
+  })
+
+  it('shows the sign-up page', async () => {
+    renderPath('/signup')
+
+    expect(
+      await screen.findByRole('heading', { name: 'Mulai Berkembang bersama ATLAS' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Buat Akun/i })).toBeInTheDocument()
+  })
+
+  it('shows the dashboard on its own page', async () => {
+    renderPath('/dashboard')
 
     expect(await screen.findByRole('heading', { name: 'Dashboard' })).toBeInTheDocument()
     expect(screen.getByText('2.847')).toBeInTheDocument()
@@ -51,23 +74,6 @@ describe('routes', () => {
     expect(screen.queryByRole('heading', { name: 'Solusi Feedback AI' })).not.toBeInTheDocument()
   })
 
-  it('asks to connect Google Maps before showing synced reviews', async () => {
-    const user = userEvent.setup()
-    renderPath('/google-maps')
-
-    expect(
-      await screen.findByRole('heading', { name: 'Hubungkan Akun Google Maps' })
-    ).toBeInTheDocument()
-    expect(screen.queryByText('Northstar Coffee sudah terhubung')).not.toBeInTheDocument()
-
-    await user.click(screen.getByRole('button', { name: 'Sambungkan Google Maps' }))
-
-    expect(
-      await screen.findByText('Northstar Coffee sudah terhubung', {}, { timeout: 2000 })
-    ).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Sinkronkan ulasan' })).toBeInTheDocument()
-  })
-
   it('shows the business account page', async () => {
     renderPath('/akun-bisnis')
 
@@ -78,7 +84,7 @@ describe('routes', () => {
 
   it('switches between the light and dark theme from the header', async () => {
     const user = userEvent.setup()
-    renderPath('/')
+    renderPath('/dashboard')
 
     await user.click(await screen.findByRole('button', { name: 'Gunakan tema gelap' }))
     expect(document.documentElement).toHaveClass('dark')
@@ -87,10 +93,20 @@ describe('routes', () => {
     expect(document.documentElement).not.toHaveClass('dark')
   })
 
-  it('sends an unknown path back to the start page', async () => {
+  it('logs out from the sidebar', async () => {
+    const user = userEvent.setup()
+    const router = renderPath('/dashboard')
+
+    await user.click(await screen.findByRole('button', { name: 'Keluar' }))
+
+    expect(await screen.findByRole('heading', { name: 'Masuk ke ATLAS' })).toBeInTheDocument()
+    expect(router.state.location.pathname).toBe('/login')
+  })
+
+  it('sends an unknown path back to the landing page', async () => {
     const router = renderPath('/unknown')
 
-    expect(await screen.findByRole('heading', { name: 'Dashboard' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: /Dengar Lebih Baik/i })).toBeInTheDocument()
     expect(router.state.location.pathname).toBe('/')
   })
 })

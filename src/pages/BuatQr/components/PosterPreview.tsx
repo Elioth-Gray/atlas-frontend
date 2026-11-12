@@ -1,6 +1,5 @@
 import { useRef } from 'react'
 
-import { BrandMark } from '@/components/layout/BrandMark'
 import { Card } from '@/components/ui/Card'
 
 import type { DownloadFormatId } from '../buatQrData'
@@ -46,15 +45,19 @@ export function PosterPreview({ theme, onDownload }: PosterPreviewProps) {
               data-reveal="item"
               className="absolute top-[27px] left-[22px] z-20 flex items-center gap-[8.6px]"
             >
-              <BrandMark className="size-[29.64px] shrink-0 overflow-visible" />
-              <div className="flex flex-col" style={{ color: theme.brandText }}>
-                <span className="text-[12.48px] leading-[18.72px] font-bold tracking-[2.34px]">
-                  ATLAS
-                </span>
-                <span className="text-[8px] leading-[10px] tracking-[1.29px]">
-                  SISTEM INSIGHT AI
-                </span>
-              </div>
+              <img
+                src="/images/ATLAS_Logo.png"
+                alt=""
+                width={512}
+                height={512}
+                className="size-[29.64px] shrink-0 object-contain"
+              />
+              <span
+                className="text-[12.48px] leading-none font-bold tracking-[2.34px]"
+                style={{ color: theme.brandText }}
+              >
+                ATLAS
+              </span>
             </div>
 
             <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center">

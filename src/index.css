@@ -33,6 +33,46 @@
   /* Elevation */
   --shadow-card: 0 4px 12px rgba(30.6, 35.7, 56.1, 0.06);
 
+  /* Landing & auth pages */
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 11s ease-in-out infinite;
+  --animate-twinkle: twinkle 4s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 5s ease-in-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.25;
+      transform: scale(0.85);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes pulse-soft {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.9;
+      transform: scale(1.05);
+    }
+  }
+
   /* Feedback galaxy UI, light by default; dark values below apply under the `dark` class */
   --color-galaxy-text: #172033;
   --color-galaxy-muted: #475569;
@@ -127,7 +167,11 @@
 
 @media (prefers-reduced-motion: reduce) {
   .animate-callout-in,
-  .animate-galaxy-dash {
+  .animate-galaxy-dash,
+  .animate-float,
+  .animate-float-slow,
+  .animate-twinkle,
+  .animate-pulse-soft {
     animation: none;
   }
 }
