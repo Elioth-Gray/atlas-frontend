@@ -35,13 +35,13 @@ export function ChartTooltip<T>({
       }))
 
   return (
-    <div className="min-w-[132px] rounded-[10px] border border-border bg-surface px-3 py-2 shadow-card">
-      <p className="text-[10px] leading-3 font-semibold text-heading">
+    <div className="min-w-[132px] border border-border bg-surface px-3 py-2 shadow-card">
+      <p className="text-[11px] leading-3 font-semibold text-heading">
         {title ? title(datum) : label}
       </p>
       <ul className="mt-1.5 space-y-1">
         {items.map((item) => (
-          <li key={item.label} className="flex items-center gap-1.5 text-[10px] text-body">
+          <li key={item.label} className="flex items-center gap-1.5 text-[11px] text-body">
             <span
               className="size-1.5 shrink-0 rounded-full"
               style={{ backgroundColor: item.color }}

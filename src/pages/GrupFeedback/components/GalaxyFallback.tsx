@@ -23,7 +23,7 @@ export function GalaxyFallback({ label }: { label: string }) {
               aria-pressed={topic.id === selectedId}
               onClick={() => setSelectedId(topic.id)}
               className={cn(
-                'flex w-full items-center gap-2.5 rounded-[10px] bg-galaxy-panel/80 px-3 py-2.5 text-left text-[10.5px] text-galaxy-muted ring-1 ring-galaxy-line transition-colors hover:bg-galaxy-soft',
+                'flex w-full items-center gap-2.5 bg-galaxy-panel/80 px-3 py-2.5 text-left text-[11px] text-galaxy-muted ring-1 ring-galaxy-line transition-colors hover:bg-galaxy-soft',
                 topic.id === selectedId && 'bg-galaxy-accent-soft ring-galaxy-accent/50'
               )}
             >

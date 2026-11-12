@@ -9,11 +9,11 @@ interface FeedbackFilterProps {
 
 function FeedbackFilter({ label, options, icon: Icon }: FeedbackFilterProps) {
   return (
-    <label className="relative flex h-[34px] items-center rounded-[10px] border border-border bg-surface pr-2 pl-2.5 text-[10.5px] text-body focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-secondary">
+    <label className="relative flex h-[34px] items-center border border-field bg-surface pr-2 pl-2.5 text-[11px] text-body focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-secondary">
       {Icon && (
         <Icon
           aria-hidden="true"
-          className="mr-1.5 size-[15px] shrink-0 text-[#898B9D]"
+          className="mr-1.5 size-[15px] shrink-0 text-icon"
           strokeWidth={1.4}
         />
       )}
@@ -21,7 +21,7 @@ function FeedbackFilter({ label, options, icon: Icon }: FeedbackFilterProps) {
       <select
         aria-label={label}
         defaultValue={options[0]}
-        className="cursor-pointer appearance-none bg-transparent text-[10.5px] text-body outline-none"
+        className="cursor-pointer appearance-none bg-transparent text-[11px] text-body outline-none"
       >
         {options.map((option) => (
           <option key={option}>{option}</option>
@@ -29,7 +29,7 @@ function FeedbackFilter({ label, options, icon: Icon }: FeedbackFilterProps) {
       </select>
       <ChevronDown
         aria-hidden="true"
-        className="pointer-events-none ml-1 size-[15px] shrink-0 text-[#898B9D]"
+        className="pointer-events-none ml-1 size-[15px] shrink-0 text-icon"
         strokeWidth={1.4}
       />
     </label>
@@ -56,7 +56,7 @@ export function FeedbackFilters() {
       <button
         type="button"
         aria-label="Filter lanjutan"
-        className="flex size-[34px] items-center justify-center rounded-[10px] border border-border bg-surface text-[#8A8B9C] transition-colors hover:bg-surface-subtle"
+        className="flex size-[34px] items-center justify-center border border-border bg-surface text-icon transition-colors hover:bg-surface-subtle"
       >
         <SlidersHorizontal aria-hidden="true" className="size-4" strokeWidth={1.4} />
       </button>

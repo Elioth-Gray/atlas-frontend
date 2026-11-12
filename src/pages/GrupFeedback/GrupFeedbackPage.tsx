@@ -7,7 +7,7 @@ import { FeedbackMap } from './components/FeedbackMap'
 export default function GrupFeedbackPage() {
   return (
     <>
-      <title>Grup Feedback & Solusi AI — {APP_NAME}</title>
+      <title>Grup Feedback & Solusi AI | {APP_NAME}</title>
 
       <div className="flex flex-1 flex-col">
         <PageHeader

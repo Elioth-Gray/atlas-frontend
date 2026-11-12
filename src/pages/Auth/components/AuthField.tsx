@@ -6,11 +6,11 @@ import { useState } from 'react'
 import { cn } from '@/utils/cn'
 
 const CONTROL_CLASS =
-  'h-12 w-full rounded-xl border border-border bg-surface-subtle text-sm text-heading placeholder:text-muted-foreground/70 transition focus:border-secondary focus:bg-surface focus:ring-4 focus:ring-secondary/15 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60'
+  'h-10 w-full border border-field bg-surface-subtle text-sm text-heading placeholder:text-muted-foreground/70 transition focus:border-secondary focus:bg-surface focus:ring-4 focus:ring-secondary/15 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60'
 
 function FieldLabel({ htmlFor, children }: { htmlFor: string; children: ReactNode }) {
   return (
-    <label htmlFor={htmlFor} className="mb-1.5 block text-[11px] font-medium text-body">
+    <label htmlFor={htmlFor} className="mb-1.5 block text-xs font-medium text-body">
       {children}
     </label>
   )
@@ -20,7 +20,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null
 
   return (
-    <p id={id} role="alert" className="mt-1.5 text-[11px] leading-4 text-[#D6428B]">
+    <p id={id} role="alert" className="mt-1.5 text-[11px] leading-4 text-danger">
       {message}
     </p>
   )
@@ -59,7 +59,7 @@ export function AuthInput({
           className={cn(
             CONTROL_CLASS,
             'pr-3.5 pl-10',
-            error && 'border-[#D6428B] focus:border-[#D6428B] focus:ring-[#D6428B]/15',
+            error && 'border-danger focus:border-danger focus:ring-danger/15',
             trailing && 'pr-11',
             className
           )}
@@ -90,7 +90,7 @@ export function AuthPasswordField({ id, ...props }: AuthPasswordFieldProps) {
           aria-label={isVisible ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'}
           aria-pressed={isVisible}
           onClick={() => setIsVisible((visible) => !visible)}
-          className="flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-surface-subtle hover:text-heading focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-secondary"
+          className="flex size-8 items-center justify-center text-muted-foreground transition-colors hover:bg-surface-subtle hover:text-heading focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-secondary"
         >
           {isVisible ? (
             <EyeOff aria-hidden="true" className="size-4" strokeWidth={1.8} />
@@ -138,7 +138,7 @@ export function AuthSelect({
           className={cn(
             CONTROL_CLASS,
             'cursor-pointer appearance-none pr-10 pl-10',
-            error && 'border-[#D6428B] focus:border-[#D6428B] focus:ring-[#D6428B]/15',
+            error && 'border-danger focus:border-danger focus:ring-danger/15',
             className
           )}
           {...props}

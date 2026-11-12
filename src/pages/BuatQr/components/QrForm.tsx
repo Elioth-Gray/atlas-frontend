@@ -28,17 +28,17 @@ export function QrForm() {
   return (
     <Card className="p-5" label="Buat QR feedback">
       <h2 className="text-[15px] leading-[18px] font-bold text-heading">Buat QR feedback</h2>
-      <p className="pt-1 text-[10px] leading-3 text-body">
+      <p className="pt-1 text-[11px] leading-3 text-body">
         Atur QR feedback untuk {BUSINESS.name}.
       </p>
 
       <div className="mt-5 grid gap-4">
         <div>
-          <p className="text-[10px] leading-3 text-body">Bisnis</p>
-          <div className="mt-1.5 flex h-10 items-center gap-2 rounded-[9px] border border-border bg-surface-subtle px-[11px]">
+          <p className="text-[11px] leading-3 text-body">Bisnis</p>
+          <div className="mt-1.5 flex h-10 items-center gap-2 border border-field bg-surface-subtle px-[11px]">
             <Store
               aria-hidden="true"
-              className="size-[15px] shrink-0 text-[#6D6F83]"
+              className="size-[15px] shrink-0 text-icon"
               strokeWidth={1.6}
             />
             <span className="min-w-0 flex-1 truncate text-[11px] text-body">{BUSINESS.name}</span>
@@ -46,13 +46,13 @@ export function QrForm() {
         </div>
 
         <div>
-          <label htmlFor={linkId} className="block text-[10px] leading-3 text-body">
+          <label htmlFor={linkId} className="block text-[11px] leading-3 text-body">
             Link feedback publik
           </label>
-          <div className="mt-1.5 flex h-10 items-center gap-2 rounded-[9px] border border-border bg-surface-subtle px-[11px]">
+          <div className="mt-1.5 flex h-10 items-center gap-2 border border-field bg-surface-subtle px-[11px]">
             <Link2
               aria-hidden="true"
-              className="size-[15px] shrink-0 text-[#6D6F83]"
+              className="size-[15px] shrink-0 text-icon"
               strokeWidth={1.7}
             />
             <input
@@ -65,7 +65,7 @@ export function QrForm() {
               type="button"
               onClick={() => void handleCopy()}
               aria-label="Salin link feedback publik"
-              className="flex shrink-0 items-center gap-1 rounded-md px-1 py-0.5 text-[10px] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-secondary"
+              className="flex shrink-0 items-center gap-1 px-1 py-0.5 text-[11px] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-secondary"
             >
               {isCopied ? (
                 <Check aria-hidden="true" className="size-[15px] text-accent" strokeWidth={2} />

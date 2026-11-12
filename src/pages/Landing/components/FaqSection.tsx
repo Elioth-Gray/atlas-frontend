@@ -10,20 +10,14 @@ export function FaqSection() {
   const baseId = useId().replaceAll(':', '')
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-col gap-3">
+    <div className="flex w-full flex-col border-t border-sheet-rule">
       {FAQ_ITEMS.map((item, index) => {
         const isOpen = openIndex === index
         const buttonId = `${baseId}-faq-button-${index}`
         const panelId = `${baseId}-faq-panel-${index}`
 
         return (
-          <article
-            key={item.question}
-            className={cn(
-              'overflow-hidden rounded-2xl border bg-surface transition-colors',
-              isOpen ? 'border-secondary/35 shadow-card' : 'border-border'
-            )}
-          >
+          <article key={item.question} className="border-b border-sheet-rule">
             <h3>
               <button
                 id={buttonId}
@@ -31,23 +25,23 @@ export function FaqSection() {
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setOpenIndex(isOpen ? null : index)}
-                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-surface-subtle sm:px-6 sm:py-5"
+                className="group flex w-full items-center justify-between gap-6 py-4 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sheet-signal-text"
               >
-                <span className="text-[13px] leading-5 font-semibold text-heading sm:text-sm">
+                <span className="text-[15px] leading-snug font-semibold text-sheet-ink transition-colors group-hover:text-sheet-signal-text sm:text-base">
                   {item.question}
                 </span>
                 <span
                   className={cn(
-                    'flex size-7 shrink-0 items-center justify-center rounded-full border transition-colors',
+                    'flex size-8 shrink-0 items-center justify-center border transition-colors',
                     isOpen
-                      ? 'border-transparent bg-primary text-white'
-                      : 'border-border bg-surface-subtle text-body'
+                      ? 'border-sheet-signal bg-sheet-signal text-sheet-signal-ink'
+                      : 'border-sheet-ink-2 text-sheet-ink'
                   )}
                 >
                   {isOpen ? (
-                    <Minus aria-hidden="true" className="size-3.5" />
+                    <Minus aria-hidden="true" className="size-4" />
                   ) : (
-                    <Plus aria-hidden="true" className="size-3.5" />
+                    <Plus aria-hidden="true" className="size-4" />
                   )}
                 </span>
               </button>
@@ -60,12 +54,12 @@ export function FaqSection() {
               aria-hidden={!isOpen}
               inert={!isOpen}
               className={cn(
-                'grid transition-[grid-template-rows] duration-300 ease-out',
+                'grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none',
                 isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
               )}
             >
               <div className="overflow-hidden">
-                <p className="px-5 pb-5 text-[12px] leading-6 text-body sm:px-6 sm:pb-6 sm:text-[13px]">
+                <p className="max-w-[62ch] pb-5 text-[15px] leading-relaxed text-sheet-ink-2">
                   {item.answer}
                 </p>
               </div>

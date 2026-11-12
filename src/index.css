@@ -1,91 +1,97 @@
+/* Hallmark · theme: Manifesto (by request, carried from the landing) · genre: editorial, admin screens: app scope · redesign: restyle · v2.0.0
+ * system: warm sheet and ink, Anton capitals for page titles only, Public Sans everywhere else, hairlines, square edges, no shadows, ATLAS violet as the one signal
+ * light theme kept because the app's theme toggle is wiring: it prints the same system as ink on a warm paper sheet */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R5 V3 · weakest: V, a restyle keeps every layout by design; the change rides on type, edges and palette */
+/* Hallmark · waive 85 · halaman Masuk dan Daftar adalah form akun itu sendiri, tombolnya membuka produk · the account form on the dark sheet is the whole job of these routes, not a mailing-list close */
+/* Hallmark · waive 75 · the 10px lines are inside the poster preview, a scaled copy of the printed poster · the preview mirrors the canvas poster at its print proportions, so its type scales with it */
+/* Hallmark · waive 39b · inline icon and copy buttons inside 40px fields and table rows on app screens · the field or row is the hit target; the glyph button is drawn small inside it */
 @import 'tailwindcss';
 
-/* Dark mode: the `dark` class on <html>, set by the theme button in the page header */
+/* Dark mode: the `dark` class on <html>, set by the theme button in the page header.
+   The same toggle sets data-theme, which the dark token block below keys on */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Color palette, used as bg-primary, text-heading, border-accent/60, etc. */
+/* Manifesto in daylight (the light theme): ink on a warm paper sheet. Dark values below */
 @theme {
-  /* Brand */
+  /* Brand: ATLAS violet is the one signal colour */
   --color-primary: #6d28d9;
-  --color-primary-foreground: #ffffff;
-  --color-secondary: #8f6aff;
-  --color-accent: #55d8b0;
+  --color-primary-hover: #5b21b6;
+  --color-primary-foreground: #fdfcff;
+  --color-primary-tint: oklch(93% 0.03 295);
+  --color-secondary: #7048e5;
+  --color-accent: #2f9e7a;
+  --color-focus: #6d28d9;
 
-  /* Background & surface */
-  --color-background: #f7f8fc;
-  --color-surface: #ffffff;
-  --color-surface-subtle: #f8f9fc;
-  --color-border: #dde1ec;
+  /* Sheet & surface */
+  --color-background: oklch(95% 0.014 85);
+  --color-surface: oklch(97.5% 0.01 85);
+  --color-surface-subtle: oklch(92% 0.014 85);
+  --color-border: oklch(84% 0.012 80);
+  --color-field: oklch(58% 0.016 65);
 
-  /* Text */
-  --color-heading: #172033;
-  --color-body: #334155;
-  --color-muted-foreground: #475569;
+  /* Ink */
+  --color-heading: oklch(13% 0.01 60);
+  --color-body: oklch(30% 0.012 60);
+  --color-muted-foreground: oklch(42% 0.014 65);
+  --color-icon: oklch(45% 0.014 65);
+
+  /* Status */
+  --color-danger: #b8336f;
+  --color-success: #17805d;
+  --color-warning: #d99a2b;
 
   /* Sentiment chart */
-  --color-sentiment-positive: #8f6cff;
-  --color-sentiment-neutral: #5a88f6;
-  --color-sentiment-negative: #ee6daa;
+  --color-sentiment-positive: #7f5af0;
+  --color-sentiment-neutral: #4f7de8;
+  --color-sentiment-negative: #e0609d;
 
-  /* Typography */
-  --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  /* Public QR feedback flow: always the dark sheet, whatever the dashboard theme */
+  --color-night: oklch(13% 0.01 60);
+  --color-night-surface: oklch(17% 0.011 60);
+  --color-night-line: oklch(31% 0.014 60);
+  --color-night-field: oklch(52% 0.016 65);
+  --color-night-text: oklch(95% 0.014 85);
+  --color-night-soft: oklch(84% 0.012 80);
+  --color-night-muted: oklch(68% 0.016 65);
+  --color-night-violet: #a785ff;
+  --color-night-button: #7048e5;
+  --color-night-on-button: #fdfcff;
+  --color-night-star-off: oklch(40% 0.014 60);
+  --color-night-error: #ffa0bb;
+  --color-night-focus: #a785ff;
+  --color-night-backdrop: oklch(9% 0.008 60);
 
-  /* Elevation */
-  --shadow-card: 0 4px 12px rgba(30.6, 35.7, 56.1, 0.06);
+  /* Typography: Public Sans for everything, Anton capitals for display heads */
+  --font-sans: 'Public Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Anton', 'Impact', sans-serif;
 
-  /* Landing & auth pages */
-  --animate-float: float 7s ease-in-out infinite;
-  --animate-float-slow: float 11s ease-in-out infinite;
-  --animate-twinkle: twinkle 4s ease-in-out infinite;
-  --animate-pulse-soft: pulse-soft 5s ease-in-out infinite;
-
-  @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-12px);
-    }
-  }
-
-  @keyframes twinkle {
-    0%,
-    100% {
-      opacity: 0.25;
-      transform: scale(0.85);
-    }
-    50% {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  @keyframes pulse-soft {
-    0%,
-    100% {
-      opacity: 0.55;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.9;
-      transform: scale(1.05);
-    }
-  }
+  /* Square edges and no lift: Manifesto draws with hairlines, never shadows */
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-4xl: 0;
+  --shadow-card: 0 0 #0000;
+  --shadow-panel: 0 0 #0000;
+  --shadow-scanline: 0 0 #0000;
 
   /* Feedback galaxy UI, light by default; dark values below apply under the `dark` class */
-  --color-galaxy-text: #172033;
-  --color-galaxy-muted: #475569;
-  --color-galaxy-subtle: #64748b;
-  --color-galaxy-panel: #ffffff;
-  --color-galaxy-line: #dde1ec;
-  --color-galaxy-soft: #f3eeff;
-  --color-galaxy-accent: #6d4ae0;
-  --color-galaxy-accent-soft: #ede6ff;
-  --color-galaxy-track: #e3d8ff;
-  --color-galaxy-positive: #1d7f62;
-  --color-galaxy-positive-soft: #ccf2e5;
-  --color-galaxy-label-shadow: rgba(248, 246, 253, 0.9);
+  --color-galaxy-text: oklch(13% 0.01 60);
+  --color-galaxy-muted: oklch(30% 0.012 60);
+  --color-galaxy-subtle: oklch(42% 0.014 65);
+  --color-galaxy-panel: oklch(97.5% 0.01 85);
+  --color-galaxy-line: oklch(84% 0.012 80);
+  --color-galaxy-soft: oklch(92% 0.014 85);
+  --color-galaxy-accent: #6d28d9;
+  --color-galaxy-accent-soft: oklch(92% 0.04 295);
+  --color-galaxy-track: oklch(86% 0.03 295);
+  --color-galaxy-positive: #17805d;
+  --color-galaxy-positive-soft: oklch(92% 0.05 165);
+  --color-galaxy-label-shadow: oklch(95% 0.014 85 / 0.9);
+  --color-space-canvas: oklch(95% 0.014 85);
 
   /* Feedback galaxy: the solution panel waits for the camera zoom before sliding in */
   --animate-callout-in: callout-in 450ms cubic-bezier(0.22, 1, 0.36, 1) 350ms both;
@@ -94,7 +100,57 @@
   @keyframes callout-in {
     from {
       opacity: 0;
-      transform: translateX(18px) scale(0.98);
+      transform: translateX(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Loading skeletons: a soft light sweeps across each placeholder */
+  --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+
+  @keyframes shimmer {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Auth: the card settles in once, and the sign-up sections slide toward the side they came from */
+  --animate-auth-in: auth-in 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-slide-from-right: slide-from-right 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-slide-from-left: slide-from-left 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @keyframes auth-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes slide-from-right {
+    from {
+      opacity: 0;
+      transform: translateX(32px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes slide-from-left {
+    from {
+      opacity: 0;
+      transform: translateX(-32px);
     }
     to {
       opacity: 1;
@@ -109,69 +165,134 @@
   }
 }
 
-/* Dark theme palette: neutral #070812 · #10111D · #151626, text #F5F4FB · #898A9D · #5E6071,
-   primary #7048E5 · #8F6AFF · #A785FF, secondary #5A88F6 · #658EFF · #67B5FF */
-@layer base {
-  .dark {
-    color-scheme: dark;
+/* The landing's own names for the dark sheet (always dark), Manifesto's tokens one to one */
+@theme static {
+  /* Daylight sheet: ink on warm paper. The dark sheet below is the landing's default */
+  --color-sheet: oklch(95% 0.014 85);
+  --color-sheet-2: oklch(92% 0.014 85);
+  --color-sheet-3: oklch(88% 0.014 85);
+  --color-sheet-ink: oklch(13% 0.01 60);
+  --color-sheet-ink-2: oklch(30% 0.012 60);
+  --color-sheet-muted: oklch(44% 0.014 65);
+  --color-sheet-rule: oklch(82% 0.012 80);
+  --color-sheet-signal: #6d28d9;
+  --color-sheet-signal-deep: #5b21b6;
+  --color-sheet-signal-text: #6d28d9;
+  --color-sheet-signal-ink: #fdfcff;
+  --color-sheet-star: #7048e5;
 
-    --color-primary: #7048e5;
-    --color-secondary: #8f6aff;
+  --animate-wipe: wipe 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
 
-    --color-background: #070812;
-    --color-surface: #10111d;
-    --color-surface-subtle: #151626;
-    --color-border: #23253a;
-
-    --color-heading: #f5f4fb;
-    --color-body: #898a9d;
-    --color-muted-foreground: #5e6071;
-
-    --color-sentiment-positive: #8f6aff;
-    --color-sentiment-neutral: #5a88f6;
-
-    --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.35);
-
-    --color-galaxy-text: #f5f4fb;
-    --color-galaxy-muted: #b4b3c4;
-    --color-galaxy-subtle: #898a9d;
-    --color-galaxy-panel: #10111d;
-    --color-galaxy-line: rgba(255, 255, 255, 0.1);
-    --color-galaxy-soft: rgba(255, 255, 255, 0.05);
-    --color-galaxy-accent: #a785ff;
-    --color-galaxy-accent-soft: rgba(112, 72, 229, 0.28);
-    --color-galaxy-track: rgba(255, 255, 255, 0.1);
-    --color-galaxy-positive: #7fe6c6;
-    --color-galaxy-positive-soft: rgba(85, 216, 176, 0.12);
-    --color-galaxy-label-shadow: rgba(7, 8, 18, 0.9);
+  @keyframes wipe {
+    from {
+      clip-path: inset(100% 0 0 0);
+    }
+    to {
+      clip-path: inset(0);
+    }
   }
 }
 
-/* Light: soft lavender canvas with purple and pink haze. Dark: deep space */
-@utility galaxy-space {
-  background-color: #f8f6fd;
-  background-image:
-    radial-gradient(ellipse at 50% 46%, rgba(124, 92, 255, 0.16), transparent 42%),
-    radial-gradient(ellipse at 66% 24%, rgba(227, 78, 154, 0.12), transparent 32%),
-    radial-gradient(ellipse at 18% 80%, rgba(88, 138, 244, 0.08), transparent 36%);
+/* Manifesto proper (the dark theme): the same warm near-black sheet as the landing */
+@layer base {
+  :root[data-theme='dark'],
+  [data-theme='dark'] {
+    color-scheme: dark;
 
-  @variant dark {
-    background-color: #070812;
-    background-image:
-      radial-gradient(ellipse at 50% 45%, rgba(112, 72, 229, 0.32), transparent 45%),
-      radial-gradient(ellipse at 82% 18%, rgba(167, 133, 255, 0.14), transparent 35%),
-      radial-gradient(ellipse at 14% 82%, rgba(90, 136, 246, 0.16), transparent 38%),
-      linear-gradient(180deg, #10111d 0%, #070812 100%);
+    --color-sheet: oklch(13% 0.01 60);
+    --color-sheet-2: oklch(17% 0.011 60);
+    --color-sheet-3: oklch(22% 0.012 60);
+    --color-sheet-ink: oklch(95% 0.014 85);
+    --color-sheet-ink-2: oklch(84% 0.012 80);
+    --color-sheet-muted: oklch(66% 0.016 65);
+    --color-sheet-rule: oklch(31% 0.014 60);
+    --color-sheet-signal: #7048e5;
+    --color-sheet-signal-deep: #5f3bd4;
+    --color-sheet-signal-text: #a785ff;
+    --color-sheet-signal-ink: #fdfcff;
+    --color-sheet-star: oklch(95% 0.014 85);
+
+    --color-primary: #7048e5;
+    --color-primary-hover: #5f3bd4;
+    --color-primary-tint: oklch(26% 0.05 295);
+    --color-secondary: #a785ff;
+    --color-accent: #55d8b0;
+    --color-focus: #a785ff;
+
+    --color-background: oklch(13% 0.01 60);
+    --color-surface: oklch(17% 0.011 60);
+    --color-surface-subtle: oklch(22% 0.012 60);
+    --color-border: oklch(31% 0.014 60);
+    --color-field: oklch(52% 0.016 65);
+
+    --color-heading: oklch(95% 0.014 85);
+    --color-body: oklch(84% 0.012 80);
+    --color-muted-foreground: oklch(66% 0.016 65);
+    --color-icon: oklch(66% 0.016 65);
+
+    --color-danger: #f08cbc;
+    --color-success: #7fe6c6;
+    --color-warning: #f2b958;
+
+    --color-sentiment-positive: #8f6aff;
+    --color-sentiment-neutral: #5a88f6;
+    --color-sentiment-negative: #ee6daa;
+
+    --color-galaxy-text: oklch(95% 0.014 85);
+    --color-galaxy-muted: oklch(84% 0.012 80);
+    --color-galaxy-subtle: oklch(66% 0.016 65);
+    --color-galaxy-panel: oklch(17% 0.011 60);
+    --color-galaxy-line: oklch(31% 0.014 60);
+    --color-galaxy-soft: oklch(22% 0.012 60);
+    --color-galaxy-accent: #a785ff;
+    --color-galaxy-accent-soft: oklch(28% 0.06 295);
+    --color-galaxy-track: oklch(31% 0.014 60);
+    --color-galaxy-positive: #7fe6c6;
+    --color-galaxy-positive-soft: oklch(26% 0.04 165);
+    --color-galaxy-label-shadow: oklch(13% 0.01 60 / 0.9);
+    --color-space-canvas: oklch(13% 0.01 60);
   }
+
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  html {
+    scrollbar-color: var(--color-border) var(--color-background);
+  }
+
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+
+  :focus-visible {
+    outline-color: var(--color-focus);
+  }
+
+  /* Anchor links glide to their section; people who ask for less motion jump instead */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+/* The galaxy prints on the sheet itself: no haze, no glow */
+@utility galaxy-space {
+  background-color: var(--color-space-canvas);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-callout-in,
   .animate-galaxy-dash,
-  .animate-float,
-  .animate-float-slow,
-  .animate-twinkle,
-  .animate-pulse-soft {
+  .animate-spin,
+  .animate-shimmer,
+  .animate-wipe,
+  .animate-auth-in,
+  .animate-slide-from-right,
+  .animate-slide-from-left {
     animation: none;
   }
 }

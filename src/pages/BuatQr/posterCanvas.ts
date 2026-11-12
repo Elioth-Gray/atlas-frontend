@@ -34,50 +34,53 @@ function drawCenteredTrackedText(
   context.textAlign = 'center'
 }
 
-const POSTER_LOGO_SRC = '/images/ATLAS_Logo.png'
+const posterLogos = new Map<string, Promise<HTMLImageElement>>()
 
-let posterLogoPromise: Promise<HTMLImageElement> | undefined
-
-function loadPosterLogo() {
-  posterLogoPromise ??= new Promise((resolve, reject) => {
-    const logo = new Image()
-    logo.onload = () => resolve(logo)
-    logo.onerror = () => reject(new Error('Gagal memuat logo ATLAS.'))
-    logo.src = POSTER_LOGO_SRC
-  })
-
-  return posterLogoPromise
+function loadPosterLogo(src: string) {
+  let logo = posterLogos.get(src)
+  if (!logo) {
+    logo = new Promise((resolve, reject) => {
+      const image = new Image()
+      image.onload = () => resolve(image)
+      image.onerror = () => reject(new Error('Gagal memuat logo ATLAS.'))
+      image.src = src
+    })
+    posterLogos.set(src, logo)
+  }
+  return logo
 }
 
-function drawFallbackBrandMark(context: CanvasRenderingContext2D, x: number, y: number) {
-  const markSize = 59.3
-  const gradient = context.createLinearGradient(x, y, x + markSize, y + markSize)
-  gradient.addColorStop(0, '#A986FF')
-  gradient.addColorStop(1, '#6442DD')
+// The same mark as public/logo, drawn by hand if the file cannot load: an orbit behind,
+// the planet, then the front of the orbit
+function drawFallbackBrandMark(
+  context: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  size: number,
+  theme: PosterTheme
+) {
+  const scale = size / 64
+  const tilt = (-24 * Math.PI) / 180
+  context.save()
+  context.translate(x, y)
+  context.scale(scale, scale)
 
-  context.fillStyle = gradient
+  context.strokeStyle = theme.markInk
+  context.lineWidth = 3.5
+  context.lineCap = 'round'
   context.beginPath()
-  context.roundRect(x, y, markSize, markSize, markSize / 2)
+  context.ellipse(32, 32, 27, 6.5, tilt, Math.PI, Math.PI * 2)
+  context.stroke()
+
+  context.fillStyle = theme.markPlanet
+  context.beginPath()
+  context.arc(32, 32, 14, 0, Math.PI * 2)
   context.fill()
 
-  context.strokeStyle = '#DDE1EC'
-  context.lineWidth = 1.8
   context.beginPath()
-  context.roundRect(x + 15.8, y + 12.9, 13.6, 13.6, 1.3)
+  context.ellipse(32, 32, 27, 6.5, tilt, 0, Math.PI)
   context.stroke()
-  context.beginPath()
-  context.roundRect(x + 26.6, y + 26.6, 5.9, 5.9, 0.8)
-  context.stroke()
-
-  context.strokeStyle = '#9679FF'
-  context.beginPath()
-  context.ellipse(x + 22.6, y + 35.9, 24.2, 8.6, (-26 * Math.PI) / 180, 0, Math.PI * 2)
-  context.stroke()
-
-  context.fillStyle = '#67B5FF'
-  context.beginPath()
-  context.arc(x + 53.1, y + 16.4, 3.9, 0, Math.PI * 2)
-  context.fill()
+  context.restore()
 }
 
 async function drawPosterBrand(context: CanvasRenderingContext2D, theme: PosterTheme) {
@@ -86,17 +89,18 @@ async function drawPosterBrand(context: CanvasRenderingContext2D, theme: PosterT
   const markSize = 59.3
 
   try {
-    const logo = await loadPosterLogo()
+    const logo = await loadPosterLogo(theme.logoSrc)
     context.drawImage(logo, x, y, markSize, markSize)
   } catch {
-    drawFallbackBrandMark(context, x, y)
+    drawFallbackBrandMark(context, x, y, markSize, theme)
   }
 
   const textX = x + markSize + 17.2
   context.textAlign = 'left'
   context.fillStyle = theme.brandText
-  context.font = '700 25px Poppins, sans-serif'
-  drawTrackedText(context, 'ATLAS', textX, y + 39, 4.7)
+  // The wordmark in the display face, Anton capitals, as in the app's lockup
+  context.font = '400 30px Anton, Impact, sans-serif'
+  drawTrackedText(context, 'ATLAS', textX, y + 41, 1.2)
   context.textAlign = 'center'
 }
 
@@ -139,13 +143,13 @@ export async function drawPoster(
   context.restore()
 
   context.fillStyle = theme.heading
-  context.font = '400 40px Poppins, sans-serif'
+  context.font = '400 40px "Public Sans", sans-serif'
   context.textAlign = 'center'
   context.fillText('Gimana', POSTER_WIDTH / 2, 220)
   context.fillText('pengalamanmu?', POSTER_WIDTH / 2, 270)
 
   context.fillStyle = theme.body
-  context.font = '400 20px Poppins, sans-serif'
+  context.font = '400 20px "Public Sans", sans-serif'
   context.fillText('Scan untuk kasih feedback.', POSTER_WIDTH / 2, 318)
   context.fillText('Cuma butuh semenit.', POSTER_WIDTH / 2, 340)
 
@@ -161,9 +165,9 @@ export async function drawPoster(
   drawModules(context, matrix, qrX + 28, qrY + 28, qrInner, theme.qrModules, 0)
 
   context.fillStyle = theme.body
-  context.font = '400 18px Poppins, sans-serif'
-  drawCenteredTrackedText(context, 'SCAN UNTUK KASIH FEEDBACK', POSTER_WIDTH / 2, 664, 2)
+  context.font = '400 18px "Public Sans", sans-serif'
+  drawCenteredTrackedText(context, 'Scan untuk kasih feedback', POSTER_WIDTH / 2, 664, 0)
 
-  context.font = '700 20px Poppins, sans-serif'
+  context.font = '700 20px "Public Sans", sans-serif'
   context.fillText(businessName, POSTER_WIDTH / 2, 776)
 }

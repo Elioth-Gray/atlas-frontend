@@ -32,7 +32,7 @@ export function WeeklyReviewsChart() {
     <Card className="flex h-full flex-col p-[17px]">
       <div>
         <h2 className="text-[15px] leading-[18px] font-bold text-heading">Jumlah ulasan</h2>
-        <p className="pt-1 text-[10px] leading-3 text-body">
+        <p className="pt-1 text-[11px] leading-3 text-body">
           <CountUp value={String(QR_TOTAL + GOOGLE_TOTAL)} /> minggu ini
         </p>
       </div>
@@ -69,13 +69,13 @@ export function WeeklyReviewsChart() {
                     rows={tooltipRows}
                   />
                 }
-                cursor={{ fill: 'var(--color-surface-subtle)', radius: 6 }}
+                cursor={{ fill: 'var(--color-surface-subtle)', radius: 0 }}
               />
               <Bar
                 dataKey="total"
                 name="Ulasan"
                 maxBarSize={33}
-                radius={[5, 5, 2, 2]}
+                radius={0}
                 animationDuration={MOTION_MS}
                 animationEasing="ease-out"
               >
@@ -92,12 +92,12 @@ export function WeeklyReviewsChart() {
       </div>
 
       <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
-        <span className="flex items-center gap-[5px] text-[10px] text-body">
+        <span className="flex items-center gap-[5px] text-[11px] text-body">
           <span className="size-[5px] rounded-full" style={{ backgroundColor: QR_COLOR }} />
           Feedback QR
           <CountUp value={String(QR_TOTAL)} className="font-bold" />
         </span>
-        <span className="flex items-center gap-[5px] text-[10px] text-body">
+        <span className="flex items-center gap-[5px] text-[11px] text-body">
           <span className="size-[5px] rounded-full" style={{ backgroundColor: GOOGLE_COLOR }} />
           Google
           <CountUp value={String(GOOGLE_TOTAL)} className="font-bold" />

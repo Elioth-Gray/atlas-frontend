@@ -12,7 +12,7 @@ const MIN_ZOOM = 0.7
 const MAX_ZOOM = 1.6
 
 const CONTROL_CLASS =
-  'flex size-[29px] items-center justify-center rounded-lg border border-border bg-surface text-heading transition-colors hover:bg-surface-subtle focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-secondary disabled:cursor-not-allowed disabled:opacity-40'
+  'flex size-[29px] items-center justify-center border border-border bg-surface text-heading transition-colors hover:bg-surface-subtle focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-secondary disabled:cursor-not-allowed disabled:opacity-40'
 
 export function FeedbackMap() {
   const mapRef = useRef<HTMLElement>(null)
@@ -55,13 +55,13 @@ export function FeedbackMap() {
       aria-label="Peta feedback"
       className={cn(
         'flex flex-col overflow-hidden border border-border bg-surface',
-        isFullscreen ? 'h-full w-full rounded-none' : 'rounded-[14px] shadow-card'
+        isFullscreen ? 'h-full w-full' : 'shadow-card'
       )}
     >
       <div className="flex items-center justify-between gap-4 border-b border-border px-5 py-[17px]">
         <div>
           <h2 className="text-[15px] leading-[18px] font-bold text-heading">Peta feedback kamu</h2>
-          <p className="pt-1 text-[10px] leading-3 text-body">
+          <p className="pt-1 text-[11px] leading-3 text-body">
             {TOTAL_FEEDBACK} feedback dikelompokkan ke {FEEDBACK_TOPICS.length} topik. Klik planet
             untuk melihat solusi AI.
           </p>

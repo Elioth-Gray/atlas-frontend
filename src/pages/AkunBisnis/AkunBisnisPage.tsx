@@ -40,7 +40,7 @@ export default function AkunBisnisPage() {
 
   return (
     <>
-      <title>Edit Akun Bisnis — {APP_NAME}</title>
+      <title>Edit Akun Bisnis | {APP_NAME}</title>
 
       <div className="flex flex-1 flex-col">
         <PageHeader
@@ -55,13 +55,13 @@ export default function AkunBisnisPage() {
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="h-[37px] rounded-[9px] border border-border bg-surface px-3.5 text-[10px] font-semibold text-body transition-colors hover:bg-surface-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+                  className="h-[37px] border border-border bg-surface px-3.5 text-[11px] font-semibold text-body transition-colors hover:bg-surface-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="flex h-[37px] items-center justify-center gap-[7px] rounded-[9px] bg-linear-to-br from-[#9172FF] to-[#7048E5] px-3.5 text-[10px] font-semibold text-white shadow-card transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+                  className="flex h-[37px] items-center justify-center gap-[7px] bg-primary px-3.5 text-[11px] font-semibold text-white shadow-card transition-opacity hover:bg-primary-hover hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
                 >
                   <Save aria-hidden="true" className="size-4" strokeWidth={1.8} />
                   Simpan perubahan
@@ -69,7 +69,7 @@ export default function AkunBisnisPage() {
               </div>
 
               {isSaved && (
-                <p role="status" className="text-[10px] font-medium text-[#1D9E75]">
+                <p role="status" className="text-[11px] font-medium text-success">
                   Perubahan berhasil disimpan.
                 </p>
               )}

@@ -1,0 +1,245 @@
+/* Hallmark · theme: Manifesto · the shared starry sky for the dark sheets, colours from the sheet tokens · redesign: restyle */
+
+/* Three layers of stars drift down at different speeds, a few bright glints pulse, meteors cross now and then.
+   Each layer is one tile taller than the screen and moves by exactly one tile, so the loop has no seam */
+.starry-sky {
+  --star-far: color-mix(in oklab, var(--color-sheet-star) 38%, transparent);
+  --star-dim: color-mix(in oklab, var(--color-sheet-star) 60%, transparent);
+  --star-bright: color-mix(in oklab, var(--color-sheet-star) 92%, transparent);
+  --star-signal: color-mix(in oklab, var(--color-sheet-signal-text) 85%, transparent);
+
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.starry-sky::before,
+.starry-sky::after,
+.starry-sky__far {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  background-repeat: repeat;
+}
+
+/* Far field: many faint pinpricks, the slowest drift */
+.starry-sky__far {
+  top: -240px;
+  background-image:
+    radial-gradient(1px 1px at 4% 9%, var(--star-far) 50%, transparent 51%),
+    radial-gradient(1px 1px at 17% 46%, var(--star-far) 50%, transparent 51%),
+    radial-gradient(1px 1px at 26% 81%, var(--star-far) 50%, transparent 51%),
+    radial-gradient(1px 1px at 33% 22%, var(--star-far) 50%, transparent 51%),
+    radial-gradient(1px 1px at 45% 63%, var(--star-far) 50%, transparent 51%),
+    radial-gradient(1px 1px at 52% 7%, var(--star-far) 50%, transparent 51%),
+    radial-gradient(1px 1px at 61% 37%, var(--star-far) 50%, transparent 51%),
+    radial-gradient(1px 1px at 69% 88%, var(--star-far) 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 54%, var(--star-far) 50%, transparent 51%),
+    radial-gradient(1px 1px at 86% 16%, var(--star-far) 50%, transparent 51%),
+    radial-gradient(1px 1px at 93% 71%, var(--star-far) 50%, transparent 51%),
+    radial-gradient(1px 1px at 98% 33%, var(--star-far) 50%, transparent 51%);
+  background-size: 240px 240px;
+  animation: starry-drift-far 140s linear infinite;
+}
+
+/* Middle field */
+.starry-sky::before {
+  top: -360px;
+  background-image:
+    radial-gradient(1.4px 1.4px at 7% 12%, var(--star-dim) 50%, transparent 51%),
+    radial-gradient(1.4px 1.4px at 23% 64%, var(--star-dim) 50%, transparent 51%),
+    radial-gradient(1.4px 1.4px at 38% 28%, var(--star-dim) 50%, transparent 51%),
+    radial-gradient(1.4px 1.4px at 51% 83%, var(--star-dim) 50%, transparent 51%),
+    radial-gradient(1.4px 1.4px at 66% 41%, var(--star-dim) 50%, transparent 51%),
+    radial-gradient(1.4px 1.4px at 79% 9%, var(--star-dim) 50%, transparent 51%),
+    radial-gradient(1.4px 1.4px at 88% 72%, var(--star-dim) 50%, transparent 51%),
+    radial-gradient(1.4px 1.4px at 95% 33%, var(--star-dim) 50%, transparent 51%),
+    radial-gradient(1.4px 1.4px at 12% 92%, var(--star-dim) 50%, transparent 51%);
+  background-size: 360px 360px;
+  animation: starry-drift-mid 90s linear infinite;
+}
+
+/* Near field: the brightest stars and a few in the signal violet, breathing as they drift */
+.starry-sky::after {
+  top: -560px;
+  background-image:
+    radial-gradient(2px 2px at 14% 36%, var(--star-bright) 50%, transparent 51%),
+    radial-gradient(2px 2px at 42% 78%, var(--star-bright) 50%, transparent 51%),
+    radial-gradient(2.5px 2.5px at 61% 18%, var(--star-signal) 50%, transparent 51%),
+    radial-gradient(2px 2px at 83% 55%, var(--star-bright) 50%, transparent 51%),
+    radial-gradient(2.5px 2.5px at 29% 7%, var(--star-bright) 50%, transparent 51%),
+    radial-gradient(2px 2px at 71% 93%, var(--star-signal) 50%, transparent 51%),
+    radial-gradient(2px 2px at 5% 68%, var(--star-bright) 50%, transparent 51%);
+  background-size: 620px 560px;
+  animation:
+    starry-breathe 6s ease-in-out infinite,
+    starry-drift-near 60s linear infinite;
+}
+
+@keyframes starry-drift-far {
+  to {
+    transform: translateY(240px);
+  }
+}
+
+@keyframes starry-drift-mid {
+  to {
+    transform: translateY(360px);
+  }
+}
+
+@keyframes starry-drift-near {
+  to {
+    transform: translateY(560px);
+  }
+}
+
+@keyframes starry-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Glints: a handful of larger stars that flare and fade on their own clocks */
+.starry-sky__glint {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--star-bright);
+  box-shadow: 0 0 6px 1px var(--star-dim);
+  animation: starry-glint 5s ease-in-out infinite both;
+}
+
+.starry-sky__glint:nth-child(2) {
+  top: 14%;
+  left: 22%;
+}
+
+.starry-sky__glint:nth-child(3) {
+  top: 31%;
+  left: 71%;
+  animation-delay: 1.4s;
+  background: var(--star-signal);
+}
+
+.starry-sky__glint:nth-child(4) {
+  top: 58%;
+  left: 9%;
+  animation-delay: 2.6s;
+}
+
+.starry-sky__glint:nth-child(5) {
+  top: 77%;
+  left: 54%;
+  animation-delay: 0.7s;
+}
+
+.starry-sky__glint:nth-child(6) {
+  top: 8%;
+  left: 88%;
+  animation-delay: 3.3s;
+  background: var(--star-signal);
+}
+
+.starry-sky__glint:nth-child(7) {
+  top: 45%;
+  left: 40%;
+  animation-delay: 4.1s;
+}
+
+.starry-sky__glint:nth-child(8) {
+  top: 88%;
+  left: 82%;
+  animation-delay: 2s;
+}
+
+@keyframes starry-glint {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.6);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+
+/* Meteors cross on a staggered loop, one every few seconds somewhere on screen */
+.starry-sky__meteor {
+  position: absolute;
+  width: 160px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--star-bright), transparent);
+  transform: rotate(-24deg) translateX(0);
+  animation: starry-meteor 12s linear infinite both;
+}
+
+.starry-sky__meteor:nth-child(9) {
+  top: 10%;
+  left: 78%;
+}
+
+.starry-sky__meteor:nth-child(10) {
+  top: 34%;
+  left: 46%;
+  animation-delay: 2.5s;
+}
+
+.starry-sky__meteor:nth-child(11) {
+  top: 60%;
+  left: 94%;
+  animation-delay: 5s;
+}
+
+.starry-sky__meteor:nth-child(12) {
+  top: 22%;
+  left: 30%;
+  animation-delay: 7.5s;
+}
+
+.starry-sky__meteor:nth-child(13) {
+  top: 72%;
+  left: 64%;
+  animation-delay: 10s;
+}
+
+@keyframes starry-meteor {
+  0% {
+    opacity: 0;
+    transform: rotate(-24deg) translateX(0);
+  }
+  2% {
+    opacity: 1;
+  }
+  9%,
+  100% {
+    opacity: 0;
+    transform: rotate(-24deg) translateX(-460px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starry-sky::before,
+  .starry-sky::after,
+  .starry-sky__far,
+  .starry-sky__glint {
+    animation: none;
+  }
+
+  .starry-sky__glint {
+    opacity: 0.8;
+  }
+
+  .starry-sky__meteor {
+    display: none;
+  }
+}
