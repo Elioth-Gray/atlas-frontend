@@ -3,15 +3,16 @@ import './ScanQR.css'
 import { ArrowLeft, Check } from 'lucide-react'
 import { useNavigate } from 'react-router'
 
+import { BrandLogo } from '@/components/brand/BrandLogo'
+
 export default function ScanQRSuccess() {
   const navigate = useNavigate()
 
   return (
     <div className="scan-page">
       <main className="scan-container">
-        {/* LOGO ASLI ATLAS */}
         <div className="scan-logo">
-          <img src="/images/ATLAS_Name%20w.png" alt="ATLAS" className="scan-logo-image" />
+          <BrandLogo tone="light" />
         </div>
 
         <header className="scan-header">

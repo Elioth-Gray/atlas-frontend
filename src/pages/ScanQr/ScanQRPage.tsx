@@ -4,6 +4,8 @@ import { ArrowLeft, ArrowRight, Star } from 'lucide-react'
 import { type FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { BrandLogo } from '@/components/brand/BrandLogo'
+
 export default function ScanQRPage() {
   const navigate = useNavigate()
 
@@ -36,9 +38,8 @@ export default function ScanQRPage() {
   return (
     <div className="scan-page">
       <main className="scan-container">
-        {/* LOGO ASLI ATLAS */}
         <div className="scan-logo">
-          <img src="/images/ATLAS_Name%20w.png" alt="ATLAS" className="scan-logo-image" />
+          <BrandLogo tone="light" />
         </div>
 
         <header className="scan-header">

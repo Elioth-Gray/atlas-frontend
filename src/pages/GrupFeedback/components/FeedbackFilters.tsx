@@ -52,7 +52,7 @@ export function FeedbackFilters() {
         label="Prioritas"
         options={['Semua prioritas', 'Tinggi', 'Sedang', 'Rendah']}
       />
-      <FeedbackFilter label="Sumber" options={['Semua sumber', 'Feedback QR', 'Google Maps']} />
+      <FeedbackFilter label="Sumber" options={['Semua sumber', 'Feedback QR']} />
       <button
         type="button"
         aria-label="Filter lanjutan"

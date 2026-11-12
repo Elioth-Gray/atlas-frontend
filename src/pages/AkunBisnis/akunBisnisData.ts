@@ -15,7 +15,7 @@ export const BUSINESS_FORM_VALUES: BusinessFormValues = {
   category: 'Kafe & Kedai Kopi',
   description: 'Kopi spesial dan menu musiman, buat menemani momen sehari-hari yang bermakna.',
   website: 'https://northstarcoffee.co',
-  scale: '11–50 karyawan',
+  scale: 'Sedang',
   ownerName: 'Alex Rivera',
   ownerRole: 'Pendiri & Pemilik',
   email: 'alex@northstarcoffee.co',
@@ -32,9 +32,4 @@ export const BUSINESS_CATEGORIES = [
   'Lainnya',
 ] as const
 
-export const BUSINESS_SCALES = [
-  '1–10 karyawan',
-  '11–50 karyawan',
-  '51–200 karyawan',
-  '200+ karyawan',
-] as const
+export const BUSINESS_SCALES = ['Kecil', 'Sedang', 'Besar'] as const

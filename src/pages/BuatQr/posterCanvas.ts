@@ -34,9 +34,22 @@ function drawCenteredTrackedText(
   context.textAlign = 'center'
 }
 
-function drawPosterBrand(context: CanvasRenderingContext2D, theme: PosterTheme) {
-  const x = 45.7
-  const y = 55.7
+const POSTER_LOGO_SRC = '/images/ATLAS_Logo.png'
+
+let posterLogoPromise: Promise<HTMLImageElement> | undefined
+
+function loadPosterLogo() {
+  posterLogoPromise ??= new Promise((resolve, reject) => {
+    const logo = new Image()
+    logo.onload = () => resolve(logo)
+    logo.onerror = () => reject(new Error('Gagal memuat logo ATLAS.'))
+    logo.src = POSTER_LOGO_SRC
+  })
+
+  return posterLogoPromise
+}
+
+function drawFallbackBrandMark(context: CanvasRenderingContext2D, x: number, y: number) {
   const markSize = 59.3
   const gradient = context.createLinearGradient(x, y, x + markSize, y + markSize)
   gradient.addColorStop(0, '#A986FF')
@@ -65,18 +78,29 @@ function drawPosterBrand(context: CanvasRenderingContext2D, theme: PosterTheme) 
   context.beginPath()
   context.arc(x + 53.1, y + 16.4, 3.9, 0, Math.PI * 2)
   context.fill()
+}
+
+async function drawPosterBrand(context: CanvasRenderingContext2D, theme: PosterTheme) {
+  const x = 45.7
+  const y = 55.7
+  const markSize = 59.3
+
+  try {
+    const logo = await loadPosterLogo()
+    context.drawImage(logo, x, y, markSize, markSize)
+  } catch {
+    drawFallbackBrandMark(context, x, y)
+  }
 
   const textX = x + markSize + 17.2
   context.textAlign = 'left'
   context.fillStyle = theme.brandText
   context.font = '700 25px Poppins, sans-serif'
-  drawTrackedText(context, 'ATLAS', textX, y + 24, 4.7)
-  context.font = '400 20px Poppins, sans-serif'
-  drawTrackedText(context, 'SISTEM INSIGHT AI', textX, y + 53, 2.6)
+  drawTrackedText(context, 'ATLAS', textX, y + 39, 4.7)
   context.textAlign = 'center'
 }
 
-export function drawPoster(
+export async function drawPoster(
   context: CanvasRenderingContext2D,
   matrix: string[],
   businessName: string,
@@ -102,7 +126,7 @@ export function drawPoster(
   context.fillStyle = glow
   context.fillRect(0, 0, POSTER_WIDTH, POSTER_HEIGHT)
 
-  drawPosterBrand(context, theme)
+  await drawPosterBrand(context, theme)
 
   context.save()
   context.translate(POSTER_WIDTH / 2 - 20, 520)

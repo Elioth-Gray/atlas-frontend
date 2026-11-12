@@ -61,6 +61,6 @@ export async function downloadPoster(
   const context = canvas.getContext('2d')
   if (!context) throw new Error('Canvas 2D tidak tersedia.')
 
-  drawPoster(context, matrix, businessName, theme)
+  await drawPoster(context, matrix, businessName, theme)
   await exportCanvas(canvas, format, fileNameBase)
 }

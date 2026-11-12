@@ -19,7 +19,7 @@ export function DashboardFilters() {
           label="Prioritas"
           options={['Semua prioritas', 'Tinggi', 'Sedang', 'Rendah']}
         />
-        <FilterSelect label="Sumber" options={['Semua sumber', 'Feedback QR', 'Google Maps']} />
+        <FilterSelect label="Sumber" options={['Semua sumber', 'Feedback QR']} />
         <button
           type="button"
           aria-label="Filter lanjutan"

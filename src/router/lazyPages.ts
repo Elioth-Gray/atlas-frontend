@@ -4,6 +4,5 @@ import { lazy } from 'react'
 // Kept apart from the route list, because fast refresh needs component-only files
 export const DashboardPage = lazy(() => import('@/pages/Dashboard/DashboardPage'))
 export const BuatQrPage = lazy(() => import('@/pages/BuatQr/BuatQrPage'))
-export const GoogleMapsPage = lazy(() => import('@/pages/GoogleMaps/GoogleMapsPage'))
 export const GrupFeedbackPage = lazy(() => import('@/pages/GrupFeedback/GrupFeedbackPage'))
 export const AkunBisnisPage = lazy(() => import('@/pages/AkunBisnis/AkunBisnisPage'))

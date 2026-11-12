@@ -1,19 +1,30 @@
 import { createBrowserRouter, Navigate, type RouteObject } from 'react-router'
 
 import { RootLayout } from '@/components/layout/RootLayout'
+import LoginPage from '@/pages/Auth/LoginPage'
+import SignUpPage from '@/pages/Auth/SignUpPage'
+import LandingPage from '@/pages/Landing/LandingPage'
 // Halaman customer tanpa layout Admin
 import ScanQRPage from '@/pages/ScanQr/ScanQRPage'
 import ScanQRSuccess from '@/pages/ScanQr/ScanQRSuccess'
 
-import {
-  AkunBisnisPage,
-  BuatQrPage,
-  DashboardPage,
-  GoogleMapsPage,
-  GrupFeedbackPage,
-} from './lazyPages'
+import { AkunBisnisPage, BuatQrPage, DashboardPage, GrupFeedbackPage } from './lazyPages'
 
 export const routes: RouteObject[] = [
+  // PUBLIC LANDING & AUTH
+  {
+    path: '/',
+    element: <LandingPage />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '/signup',
+    element: <SignUpPage />,
+  },
+
   // PUBLIC CUSTOMER ROUTES
   {
     path: '/feedback/outlet',
@@ -28,16 +39,15 @@ export const routes: RouteObject[] = [
   {
     element: <RootLayout />,
     children: [
-      { index: true, element: <DashboardPage /> },
+      { path: 'dashboard', element: <DashboardPage /> },
       { path: 'buat-qr', element: <BuatQrPage /> },
-      { path: 'google-maps', element: <GoogleMapsPage /> },
       { path: 'grup-feedback', element: <GrupFeedbackPage /> },
       { path: 'akun-bisnis', element: <AkunBisnisPage /> },
-
-      // Unknown paths redirect to Dashboard
-      { path: '*', element: <Navigate to="/" replace /> },
     ],
   },
+
+  // Unknown paths redirect to the landing page
+  { path: '*', element: <Navigate to="/" replace /> },
 ]
 
 export const router = createBrowserRouter(routes)
