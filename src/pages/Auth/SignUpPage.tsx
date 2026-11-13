@@ -10,29 +10,26 @@ import {
   User,
 } from 'lucide-react'
 import type { FormEvent, KeyboardEvent } from 'react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { FieldErrors } from 'react-hook-form'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router'
+import { toast } from 'sonner'
 
+import { ApiError } from '@/api/ApiError'
 import { APP_NAME } from '@/constants'
+import { useAuth } from '@/contexts/AuthContext'
+import {
+  DEFAULT_SHOP_CATEGORIES,
+  DEFAULT_SHOP_SCALES,
+  useShopCategories,
+  useShopScales,
+} from '@/hooks/data/usePublicShop'
+import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { cn } from '@/utils/cn'
 
 import { AuthShell } from './AuthShell'
 import { AuthInput, AuthPasswordField, AuthSelect } from './components/AuthField'
-
-const BUSINESS_CATEGORIES = [
-  'Kuliner & Minuman',
-  'Retail',
-  'Fashion',
-  'Kecantikan',
-  'Jasa',
-  'Kesehatan',
-  'Pendidikan',
-  'Lainnya',
-] as const
-
-const BUSINESS_SCALES = ['Kecil', 'Sedang', 'Besar'] as const
 
 interface SignUpValues {
   fullName: string
@@ -80,17 +77,57 @@ const SECONDARY_BUTTON_CLASS =
   'flex h-10 items-center justify-center border border-body px-4 text-sm font-semibold text-heading transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary active:translate-y-px'
 
 export default function SignUpPage() {
+  useDocumentTitle(`Daftar | ${APP_NAME}`)
   const navigate = useNavigate()
+  const { register: registerAccount } = useAuth()
+  const { data: categories = DEFAULT_SHOP_CATEGORIES } = useShopCategories()
+  const { data: scales = DEFAULT_SHOP_SCALES } = useShopScales()
   const [activeSection, setActiveSection] = useState<SectionId>('akun')
-  // The slide only plays after the first switch, so the form does not move on page load
   const [hasSwitched, setHasSwitched] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
+
+  const categoryOptions = useMemo(
+    () => categories.map((item) => ({ value: item.id, label: item.name })),
+    [categories]
+  )
+  const scaleOptions = useMemo(
+    () => scales.map((item) => ({ value: item.id, label: item.name })),
+    [scales]
+  )
+
   const {
     register,
+    control,
     handleSubmit,
     getValues,
     trigger,
     formState: { errors, isSubmitting },
   } = useForm<SignUpValues>({ mode: 'onTouched', defaultValues: EMPTY_FORM })
+
+  const watchedValues = useWatch({ control })
+  const isAllComplete = useMemo(() => {
+    const fullName = watchedValues.fullName?.trim() ?? ''
+    const email = watchedValues.email?.trim() ?? ''
+    const password = watchedValues.password ?? ''
+    const confirmPassword = watchedValues.confirmPassword ?? ''
+    const businessName = watchedValues.businessName?.trim() ?? ''
+    const category = watchedValues.category?.trim() ?? ''
+    const city = watchedValues.city?.trim() ?? ''
+    const businessScale = watchedValues.businessScale?.trim() ?? ''
+
+    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    const isPasswordValid = password.length >= 8 && confirmPassword === password
+
+    return Boolean(
+      fullName &&
+      isEmailValid &&
+      isPasswordValid &&
+      businessName &&
+      category &&
+      city &&
+      businessScale
+    )
+  }, [watchedValues])
 
   function showSectionWithErrors(fieldErrors: FieldErrors<SignUpValues>) {
     const section = SECTIONS.find(({ fields }) => fields.some((field) => field in fieldErrors))
@@ -104,10 +141,32 @@ export default function SignUpPage() {
   }
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
-    void handleSubmit(async () => {
-      // Frontend demo: replace with the sign-up endpoint once authentication is available.
-      await new Promise((resolve) => setTimeout(resolve, 650))
-      void navigate('/dashboard', { replace: true })
+    void handleSubmit(async (values) => {
+      setSubmitError(null)
+      try {
+        await registerAccount({
+          name: values.fullName.trim(),
+          email: values.email.trim(),
+          password: values.password,
+          shop: {
+            name: values.businessName.trim(),
+            description: values.city.trim() ? `Lokasi: ${values.city.trim()}` : null,
+            website: null,
+            image: null,
+            category_id: values.category,
+            scale_id: values.businessScale,
+          },
+        })
+        toast.success('Akun bisnis berhasil dibuat! Silakan masuk menggunakan akun Anda.')
+        void navigate('/signin', { replace: true })
+      } catch (error) {
+        const msg =
+          error instanceof ApiError
+            ? error.message
+            : 'Gagal membuat akun. Periksa kembali data Anda dan coba lagi.'
+        setSubmitError(msg)
+        toast.error(msg)
+      }
     }, showSectionWithErrors)(event)
   }
 
@@ -129,8 +188,6 @@ export default function SignUpPage() {
       title="Mulai Berkembang bersama ATLAS"
       description="Buat akun bisnis dan ubah masukan pelanggan menjadi wawasan yang bisa ditindaklanjuti."
     >
-      <title>Daftar | {APP_NAME}</title>
-
       <div>
         <div
           role="tablist"
@@ -170,6 +227,15 @@ export default function SignUpPage() {
         </div>
 
         <form onSubmit={onSubmit} noValidate className="mt-5">
+          {submitError && (
+            <div
+              role="alert"
+              className="mb-4 border border-danger/40 bg-danger/10 px-3 py-2 text-[12px] text-danger"
+            >
+              {submitError}
+            </div>
+          )}
+
           <div
             id="signup-panel-akun"
             role="tabpanel"
@@ -258,7 +324,7 @@ export default function SignUpPage() {
               label="Kategori Bisnis"
               icon={Tag}
               placeholder="Pilih kategori"
-              options={BUSINESS_CATEGORIES}
+              options={categoryOptions}
               error={errors.category?.message}
               {...register('category', { required: 'Pilih kategori bisnis Anda.' })}
             />
@@ -278,7 +344,7 @@ export default function SignUpPage() {
               label="Skala Bisnis"
               icon={Building2}
               placeholder="Pilih skala bisnis"
-              options={BUSINESS_SCALES}
+              options={scaleOptions}
               error={errors.businessScale?.message}
               {...register('businessScale', { required: 'Skala bisnis wajib diisi.' })}
             />
@@ -305,8 +371,8 @@ export default function SignUpPage() {
 
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="flex h-10 w-full items-center justify-center gap-2 bg-primary text-sm font-semibold whitespace-nowrap text-primary-foreground transition-colors duration-200 hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary active:translate-y-px disabled:cursor-not-allowed disabled:opacity-70"
+              disabled={isSubmitting || !isAllComplete}
+              className="flex h-10 w-full items-center justify-center gap-2 bg-primary text-sm font-semibold whitespace-nowrap text-primary-foreground transition-colors duration-200 hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>
@@ -328,7 +394,7 @@ export default function SignUpPage() {
         <p className="text-center text-[13px] text-body">
           Sudah punya akun?{' '}
           <Link
-            to="/login"
+            to="/signin"
             className="font-semibold text-primary transition-colors hover:text-secondary dark:text-secondary"
           >
             Masuk

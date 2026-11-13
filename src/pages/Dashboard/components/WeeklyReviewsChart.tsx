@@ -10,41 +10,40 @@ import type { ReviewDay } from '../dashboardData'
 import { WEEKLY_REVIEWS } from '../dashboardData'
 
 const QR_COLOR = '#9773FF'
-const GOOGLE_COLOR = '#588AF4'
-
-const CHART_DATA = WEEKLY_REVIEWS.map((day) => ({ ...day, total: day.qr + day.google }))
-const QR_TOTAL = WEEKLY_REVIEWS.reduce((sum, day) => sum + day.qr, 0)
-const GOOGLE_TOTAL = WEEKLY_REVIEWS.reduce((sum, day) => sum + day.google, 0)
 
 function tooltipRows(day: ReviewDay) {
-  return [
-    { label: 'Feedback QR', value: day.qr, color: QR_COLOR },
-    { label: 'Google', value: day.google, color: GOOGLE_COLOR },
-  ]
+  return [{ label: 'Feedback QR', value: day.qr, color: QR_COLOR }]
 }
 
-export function WeeklyReviewsChart() {
+interface WeeklyReviewsChartProps {
+  days?: ReviewDay[]
+}
+
+export function WeeklyReviewsChart({ days = WEEKLY_REVIEWS }: WeeklyReviewsChartProps) {
   const id = useId().replaceAll(':', '')
   const baseGradient = `weekly-base-${id}`
   const highlightGradient = `weekly-highlight-${id}`
+
+  const chartData = days.map((day) => ({ ...day, total: day.qr }))
+  const qrTotal = days.reduce((sum, day) => sum + day.qr, 0)
 
   return (
     <Card className="flex h-full flex-col p-[17px]">
       <div>
         <h2 className="text-[15px] leading-[18px] font-bold text-heading">Jumlah ulasan</h2>
         <p className="pt-1 text-[11px] leading-3 text-body">
-          <CountUp value={String(QR_TOTAL + GOOGLE_TOTAL)} /> minggu ini
+          <CountUp value={String(qrTotal)} /> minggu ini
         </p>
       </div>
 
       <div
         role="img"
-        aria-label="Grafik jumlah ulasan per hari, tertinggi pada hari Sabtu"
+        aria-label="Grafik jumlah ulasan per hari"
         className="relative mt-6 min-h-[396px] flex-1"
       >
         <div className="absolute inset-0">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={CHART_DATA} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+            <BarChart data={chartData} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
               <defs>
                 <linearGradient id={baseGradient} x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#6953AA" />
@@ -65,7 +64,7 @@ export function WeeklyReviewsChart() {
               <Tooltip
                 content={
                   <ChartTooltip<ReviewDay>
-                    title={(day) => `${day.label} · ${day.qr + day.google} ulasan`}
+                    title={(day) => `${day.label} · ${day.qr} ulasan`}
                     rows={tooltipRows}
                   />
                 }
@@ -79,7 +78,7 @@ export function WeeklyReviewsChart() {
                 animationDuration={MOTION_MS}
                 animationEasing="ease-out"
               >
-                {CHART_DATA.map((day) => (
+                {chartData.map((day) => (
                   <Cell
                     key={day.label}
                     fill={`url(#${day.highlighted ? highlightGradient : baseGradient})`}
@@ -95,13 +94,8 @@ export function WeeklyReviewsChart() {
         <span className="flex items-center gap-[5px] text-[11px] text-body">
           <span className="size-[5px] rounded-full" style={{ backgroundColor: QR_COLOR }} />
           Feedback QR
-          <CountUp value={String(QR_TOTAL)} className="font-bold" />
         </span>
-        <span className="flex items-center gap-[5px] text-[11px] text-body">
-          <span className="size-[5px] rounded-full" style={{ backgroundColor: GOOGLE_COLOR }} />
-          Google
-          <CountUp value={String(GOOGLE_TOTAL)} className="font-bold" />
-        </span>
+        <CountUp value={String(qrTotal)} className="text-[11px] font-bold text-body" />
       </div>
     </Card>
   )

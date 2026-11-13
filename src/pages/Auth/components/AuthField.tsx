@@ -103,11 +103,13 @@ export function AuthPasswordField({ id, ...props }: AuthPasswordFieldProps) {
   )
 }
 
+export type SelectOptionItem = string | { value: string; label: string }
+
 interface AuthSelectProps extends ComponentPropsWithRef<'select'> {
   id: string
   label: string
   icon: LucideIcon
-  options: readonly string[]
+  options: readonly SelectOptionItem[]
   placeholder: string
   error?: string
 }
@@ -146,11 +148,15 @@ export function AuthSelect({
           <option value="" disabled>
             {placeholder}
           </option>
-          {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
+          {options.map((option) => {
+            const val = typeof option === 'string' ? option : option.value
+            const text = typeof option === 'string' ? option : option.label
+            return (
+              <option key={val} value={val}>
+                {text}
+              </option>
+            )
+          })}
         </select>
         <ChevronDown
           aria-hidden="true"

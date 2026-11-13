@@ -1,25 +1,43 @@
 import './ScanQR.css'
 
-import { ArrowLeft, ArrowRight, Star } from 'lucide-react'
+import { ArrowLeft, ArrowRight, LoaderCircle, Star } from 'lucide-react'
 import { type FormEvent, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
+import { toast } from 'sonner'
 
+import { ApiError } from '@/api/ApiError'
 import { BrandLogo } from '@/components/brand/BrandLogo'
 import { StarrySky } from '@/components/decor/StarrySky'
+import { APP_NAME } from '@/constants'
+import { useAuth } from '@/contexts/AuthContext'
+import { isUuid, usePublicShop, useSubmitFeedback } from '@/hooks/data/usePublicShop'
+import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 
 // What each star means, read back to the customer as soon as they tap
 const RATING_LABELS = ['', 'Kurang', 'Cukup', 'Baik', 'Sangat baik', 'Luar biasa'] as const
 
 export default function ScanQRPage() {
   const navigate = useNavigate()
+  const { shopId } = useParams<{ shopId: string }>()
+  const { activeShopId, activeShop } = useAuth()
 
+  const resolvedShopId = isUuid(shopId) ? shopId : isUuid(activeShopId) ? activeShopId : undefined
+  const { data: publicShop } = usePublicShop(resolvedShopId)
+  const submitFeedback = useSubmitFeedback(resolvedShopId)
+
+  const [customerName, setCustomerName] = useState('')
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
   const [error, setError] = useState('')
 
-  const outletName = 'Outlet'
+  const outletName = publicShop?.name ?? activeShop?.name ?? 'Outlet'
+  const pageTitle =
+    outletName !== 'Outlet'
+      ? `Kirim Feedback - ${outletName} | ${APP_NAME}`
+      : `Kirim Feedback | ${APP_NAME}`
+  useDocumentTitle(pageTitle)
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
     if (rating === 0) {
@@ -27,16 +45,41 @@ export default function ScanQRPage() {
       return
     }
 
-    if (!comment.trim()) {
+    const trimmedComment = comment.trim()
+    if (!trimmedComment) {
       setError('Ceritakan pengalamanmu terlebih dahulu.')
+      return
+    }
+
+    if (trimmedComment.length < 5) {
+      setError('Ceritakan pengalamanmu minimal 5 karakter.')
       return
     }
 
     setError('')
 
-    // Navigasi frontend sementara.
-    // Hubungkan API untuk menyimpan feedback sungguhan.
-    void navigate('/feedback/outlet/success')
+    const targetSlug = shopId ?? resolvedShopId ?? 'outlet'
+
+    if (isUuid(resolvedShopId)) {
+      try {
+        await submitFeedback.mutateAsync({
+          name: customerName.trim() ? customerName.trim() : null,
+          rating,
+          feedback: trimmedComment,
+          image: null,
+        })
+        toast.success('Terima kasih! Masukanmu berhasil dikirim.')
+        void navigate(`/feedback/${targetSlug}/success`)
+      } catch (err) {
+        const msg =
+          err instanceof ApiError ? err.message : 'Gagal mengirim feedback. Silakan coba lagi.'
+        setError(msg)
+        toast.error(msg)
+      }
+      return
+    }
+
+    void navigate(`/feedback/${targetSlug}/success`)
   }
 
   return (
@@ -73,10 +116,12 @@ export default function ScanQRPage() {
             <div aria-hidden="true" className="scan-intro-orbit" />
             <p className="scan-outlet">{outletName}</p>
             <h1>Bagaimana pengalamanmu hari ini?</h1>
-            <p className="scan-hint">Ketuk bintang untuk menilai kunjunganmu.</p>
+            <p className="scan-hint">
+              {publicShop?.description ?? 'Ketuk bintang untuk menilai kunjunganmu.'}
+            </p>
           </div>
 
-          <form onSubmit={handleSubmit} noValidate>
+          <form onSubmit={(e) => void handleSubmit(e)} noValidate>
             <div className="scan-rating scan-rise scan-rise--3">
               <div className="scan-stars" role="group" aria-label="Pilih rating pengalaman">
                 {[1, 2, 3, 4, 5].map((value) => (
@@ -104,6 +149,21 @@ export default function ScanQRPage() {
             </div>
 
             <div className="scan-comment scan-rise scan-rise--4">
+              <label className="scan-label" htmlFor="customer-name">
+                Nama kamu (opsional)
+              </label>
+              <div className="scan-textarea-wrapper mb-3">
+                <input
+                  id="customer-name"
+                  type="text"
+                  maxLength={100}
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  placeholder="Kosongkan untuk kirim sebagai Anonim"
+                  className="w-full bg-transparent px-3.5 py-2.5 text-sm text-white placeholder:text-white/45 focus:outline-none"
+                />
+              </div>
+
               <label className="scan-label" htmlFor="review">
                 Ceritakan pengalamanmu
               </label>
@@ -123,6 +183,10 @@ export default function ScanQRPage() {
                 <span className="scan-counter">{comment.length}/500</span>
               </div>
 
+              <p className="mt-2 text-[11px] text-white/55">
+                Dengan mengirimkan feedback, kamu telah membaca Kebijakan Privasi.
+              </p>
+
               {error && (
                 <p className="scan-error" role="alert">
                   {error}
@@ -130,9 +194,22 @@ export default function ScanQRPage() {
               )}
             </div>
 
-            <button className="scan-submit scan-rise scan-rise--5" type="submit">
-              <span>Kirim Feedback</span>
-              <ArrowRight size={18} />
+            <button
+              className="scan-submit scan-rise scan-rise--5"
+              type="submit"
+              disabled={submitFeedback.isPending}
+            >
+              {submitFeedback.isPending ? (
+                <>
+                  <LoaderCircle size={18} className="animate-spin" />
+                  <span>Mengirim...</span>
+                </>
+              ) : (
+                <>
+                  <span>Kirim Feedback</span>
+                  <ArrowRight size={18} />
+                </>
+              )}
             </button>
           </form>
         </section>

@@ -7,7 +7,7 @@ import { CONTAINER_CLASS, LEAD_CLASS } from '../landingStyles'
 
 // three.js is heavy, so the galaxy loads in its own chunk when this section's code runs
 const FeedbackGalaxy = lazy(() =>
-  import('@/pages/GrupFeedback/components/FeedbackGalaxy').then((module) => ({
+  import('@/pages/FeedbackGroup/components/FeedbackGalaxy').then((module) => ({
     default: module.FeedbackGalaxy,
   }))
 )
