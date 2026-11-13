@@ -1,36 +1,34 @@
 import type { LucideIcon } from 'lucide-react'
-import { ChevronDown } from 'lucide-react'
+
+import { ThemedSelect } from '@/components/ui/ThemedSelect'
 
 interface FilterSelectProps {
   label: string
-  options: string[]
+  options: readonly string[]
   icon?: LucideIcon
+  value?: string
+  onChange?: (value: string) => void
+  className?: string
 }
 
-export function FilterSelect({ label, options, icon: Icon }: FilterSelectProps) {
+export function FilterSelect({
+  label,
+  options,
+  icon,
+  value,
+  onChange,
+  className,
+}: FilterSelectProps) {
   return (
-    <label className="relative flex h-[34px] items-center border border-field bg-surface-subtle pr-2 pl-2.5 text-[11px] text-body focus-within:outline-2 focus-within:outline-offset-1 focus-within:outline-secondary">
-      {Icon && (
-        <Icon
-          aria-hidden="true"
-          className="mr-1.5 size-[15px] shrink-0 text-icon"
-          strokeWidth={1.4}
-        />
-      )}
-      <span className="sr-only">{label}</span>
-      <select
-        aria-label={label}
-        className="cursor-pointer appearance-none bg-transparent text-[11px] text-body outline-none"
-      >
-        {options.map((option) => (
-          <option key={option}>{option}</option>
-        ))}
-      </select>
-      <ChevronDown
-        aria-hidden="true"
-        className="pointer-events-none -ml-4 size-[15px] shrink-0 text-icon"
-        strokeWidth={1.4}
-      />
-    </label>
+    <ThemedSelect
+      icon={icon}
+      label={label}
+      value={value ?? options[0] ?? ''}
+      options={options}
+      onChange={onChange ?? (() => {})}
+      size="sm"
+      variant="field"
+      className={className}
+    />
   )
 }

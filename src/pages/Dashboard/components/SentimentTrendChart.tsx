@@ -16,6 +16,7 @@ import { CountUp } from '@/components/ui/CountUp'
 import { cn } from '@/utils/cn'
 import { MOTION_MS } from '@/utils/motion'
 
+import type { SentimentPoint, SentimentSummaryItem } from '../dashboardData'
 import { SENTIMENT_SUMMARY, SENTIMENT_TREND } from '../dashboardData'
 
 const AXIS_TICK = { fontSize: 10, fill: 'var(--color-body)' }
@@ -26,9 +27,17 @@ const SERIES = [
   { key: 'negative', name: 'Negatif', color: 'var(--color-sentiment-negative)' },
 ] as const
 
-export function SentimentTrendChart() {
+interface SentimentTrendChartProps {
+  trend?: SentimentPoint[]
+  summaryItems?: SentimentSummaryItem[]
+}
+
+export function SentimentTrendChart({
+  trend = SENTIMENT_TREND,
+  summaryItems = SENTIMENT_SUMMARY,
+}: SentimentTrendChartProps) {
   const gradientId = `sentiment-${useId().replaceAll(':', '')}`
-  const summary = SENTIMENT_SUMMARY.map((item) => `${item.label} ${item.value}`).join(', ')
+  const summary = summaryItems.map((item) => `${item.label} ${item.value}`).join(', ')
 
   return (
     <Card className="p-[17px]">
@@ -47,7 +56,7 @@ export function SentimentTrendChart() {
       </div>
 
       <ul className="mt-4 flex flex-wrap items-center gap-x-[17px] gap-y-2">
-        {SENTIMENT_SUMMARY.map((item) => (
+        {summaryItems.map((item) => (
           <li key={item.label} className="flex items-center gap-1.5 text-[11px] text-body">
             <span className={cn('size-1.5 shrink-0 rounded-full', item.colorClass)} />
             <span>
@@ -59,7 +68,7 @@ export function SentimentTrendChart() {
 
       <div role="img" aria-label={`Grafik tren sentimen: ${summary}`} className="mt-3 h-[180px]">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={SENTIMENT_TREND} margin={{ top: 6, right: 6, bottom: 0, left: -26 }}>
+          <AreaChart data={trend} margin={{ top: 6, right: 6, bottom: 0, left: -26 }}>
             <defs>
               <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="var(--color-sentiment-positive)" stopOpacity={0.35} />

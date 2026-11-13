@@ -54,7 +54,7 @@ export function LandingHeader({ theme, onToggleTheme }: LandingHeaderProps) {
 
         <div className="flex items-center gap-3">
           <ThemeToggle theme={theme} onToggle={onToggleTheme} className={TOGGLE_CLASS} />
-          <Link to="/login" className={cn(NAV_LINK_CLASS, 'hidden sm:inline-flex')}>
+          <Link to="/signin" className={cn(NAV_LINK_CLASS, 'hidden sm:inline-flex')}>
             Masuk
           </Link>
           <Link to="/signup" className={cn(PRIMARY_BUTTON_CLASS, 'hidden sm:inline-flex')}>
@@ -104,7 +104,7 @@ export function LandingHeader({ theme, onToggleTheme }: LandingHeaderProps) {
 
             <div className="mt-3 grid grid-cols-2 gap-3 sm:hidden">
               <Link
-                to="/login"
+                to="/signin"
                 onClick={() => setIsMenuOpen(false)}
                 className="flex h-10 items-center justify-center border border-sheet-ink-2 text-sm font-semibold text-sheet-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sheet-signal-text"
               >

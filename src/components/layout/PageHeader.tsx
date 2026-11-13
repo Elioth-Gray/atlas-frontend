@@ -1,6 +1,8 @@
 import { Search } from 'lucide-react'
 
-import { CURRENT_USER } from '@/constants'
+import { useAuth } from '@/contexts/AuthContext'
+import { useMyShopDetail } from '@/hooks/data/useOwnerShops'
+import { getInitials } from '@/utils/format'
 
 import { ThemeToggle } from './ThemeToggle'
 
@@ -10,6 +12,17 @@ interface PageHeaderProps {
 }
 
 export function PageHeader({ title, subtitle }: PageHeaderProps) {
+  const { displayUser, activeShop, activeShopId, isAuthenticated, searchQuery, setSearchQuery } =
+    useAuth()
+  const { data: shopDetail } = useMyShopDetail(activeShopId, isAuthenticated)
+
+  const currentShop = shopDetail?.shop ?? activeShop
+  const shopLogo = currentShop?.image?.trim() || null
+  const avatarInitials = currentShop?.name ? getInitials(currentShop.name) : displayUser.initials
+  const avatarLabel = currentShop?.name
+    ? `Logo bisnis ${currentShop.name}`
+    : `Profil ${displayUser.name}`
+
   return (
     <header className="sticky top-0 z-30 flex min-h-[84px] flex-col justify-center gap-3 border-b border-border bg-surface px-4 py-4 sm:px-7 lg:flex-row lg:items-center lg:justify-between">
       <div>
@@ -29,6 +42,8 @@ export function PageHeader({ title, subtitle }: PageHeaderProps) {
           />
           <input
             type="search"
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
             placeholder="Cari feedback, masalah..."
             className="h-full w-full border border-field bg-surface-subtle pr-3 pl-9 text-[11px] text-body placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-secondary"
           />
@@ -36,15 +51,20 @@ export function PageHeader({ title, subtitle }: PageHeaderProps) {
 
         <ThemeToggle />
 
-        <button
-          type="button"
-          aria-label={`Buka profil ${CURRENT_USER.name}`}
+        <div
+          role="img"
+          aria-label={avatarLabel}
+          title={currentShop?.name ?? displayUser.name}
           className="relative flex size-[37px] shrink-0 items-center justify-center border border-border bg-surface-subtle"
         >
-          <span className="flex size-[31px] items-center justify-center bg-primary text-[11px] text-white">
-            {CURRENT_USER.initials}
+          <span className="flex size-[31px] items-center justify-center overflow-hidden bg-primary text-[11px] font-semibold text-white">
+            {shopLogo ? (
+              <img src={shopLogo} alt="" className="size-full object-cover" />
+            ) : (
+              avatarInitials
+            )}
           </span>
-        </button>
+        </div>
       </div>
     </header>
   )

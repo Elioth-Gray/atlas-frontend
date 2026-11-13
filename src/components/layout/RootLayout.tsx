@@ -12,9 +12,9 @@ export function RootLayout() {
   const { pathname } = useLocation()
 
   return (
-    <div className="flex min-h-svh flex-col bg-background font-sans lg:h-svh lg:flex-row lg:overflow-hidden">
+    <div className="flex min-h-dvh flex-col bg-background font-sans lg:flex-row">
       <AppSidebar />
-      <div className="flex min-w-0 flex-1 flex-col lg:overflow-y-auto">
+      <div className="flex min-w-0 flex-1 flex-col">
         <ErrorBoundary FallbackComponent={ErrorFallback} resetKeys={[pathname]}>
           <Suspense fallback={<PageSkeleton />}>
             <Outlet />

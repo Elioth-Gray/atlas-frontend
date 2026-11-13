@@ -1,13 +1,18 @@
 import './ScanQR.css'
 
 import { ArrowLeft, Check } from 'lucide-react'
-import { useNavigate } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 
 import { BrandLogo } from '@/components/brand/BrandLogo'
 import { StarrySky } from '@/components/decor/StarrySky'
+import { APP_NAME } from '@/constants'
+import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 
 export default function ScanQRSuccess() {
+  useDocumentTitle(`Feedback Terkirim | ${APP_NAME}`)
   const navigate = useNavigate()
+  const { shopId } = useParams<{ shopId: string }>()
+  const backPath = `/feedback/${shopId ?? 'outlet'}`
 
   return (
     <div data-theme="dark" className="scan-page dark">
@@ -20,7 +25,7 @@ export default function ScanQRSuccess() {
             type="button"
             aria-label="Kembali"
             onClick={() => {
-              void navigate('/feedback/outlet')
+              void navigate(backPath)
             }}
           >
             <ArrowLeft size={20} />
@@ -49,7 +54,7 @@ export default function ScanQRSuccess() {
 
           <h1 className="scan-rise scan-rise--3">Terima kasih!</h1>
 
-          <p className="scan-rise scan-rise--4">Feedback kamu berhasil dikirim.</p>
+          <p className="scan-rise scan-rise--4">Masukanmu berhasil dikirim.</p>
 
           <p className="scan-success-description scan-rise scan-rise--5">
             Masukanmu membantu bisnis berkembang dan memberi pengalaman yang lebih baik.

@@ -110,6 +110,7 @@
 
   /* Loading skeletons: a soft light sweeps across each placeholder */
   --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+  --animate-route-progress: route-progress 480ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 
   @keyframes shimmer {
     from {
@@ -117,6 +118,21 @@
     }
     to {
       transform: translateX(100%);
+    }
+  }
+
+  @keyframes route-progress {
+    0% {
+      transform: scaleX(0.08);
+      opacity: 1;
+    }
+    70% {
+      transform: scaleX(0.92);
+      opacity: 1;
+    }
+    100% {
+      transform: scaleX(1);
+      opacity: 0;
     }
   }
 

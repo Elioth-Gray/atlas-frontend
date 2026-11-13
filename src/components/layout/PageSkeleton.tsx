@@ -1,10 +1,28 @@
+import { useLocation } from 'react-router'
+
 import { Skeleton } from '@/components/ui/Skeleton'
+import { APP_NAME } from '@/constants'
+import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 
 const CARD_CLASS = 'border border-border bg-surface p-[18px]'
+
+const SKELETON_TITLES: Record<string, string> = {
+  '/dashboard': `Dashboard | ${APP_NAME}`,
+  '/create-qr': `Buat QR | ${APP_NAME}`,
+  '/qr-generator': `Buat QR | ${APP_NAME}`,
+  '/feedback-group': `Grup Feedback & Solusi AI | ${APP_NAME}`,
+  '/issues': `Grup Feedback & Solusi AI | ${APP_NAME}`,
+  '/galaxy': `Grup Feedback & Solusi AI | ${APP_NAME}`,
+  '/business-account': `Edit Akun Bisnis | ${APP_NAME}`,
+  '/settings/business': `Edit Akun Bisnis | ${APP_NAME}`,
+}
 
 // Shown while a page's code and data load: the page header, filters, figures, charts and a table,
 // each drawn as the block it will become, so the layout does not jump when the content lands
 export function PageSkeleton() {
+  const { pathname } = useLocation()
+  useDocumentTitle(SKELETON_TITLES[pathname] ?? APP_NAME)
+
   return (
     <div role="status" aria-live="polite" className="flex flex-1 flex-col">
       <span className="sr-only">Memuat halaman...</span>

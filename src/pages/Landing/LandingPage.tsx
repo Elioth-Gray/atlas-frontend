@@ -3,6 +3,7 @@ import './landing.css'
 import { useRef } from 'react'
 
 import { StarrySky } from '@/components/decor/StarrySky'
+import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { cn } from '@/utils/cn'
 
 import { ClosingBand } from './components/ClosingBand'
@@ -20,6 +21,7 @@ import { CONTAINER_CLASS, SECTION_HEAD_CLASS } from './landingStyles'
 // The landing opens on the dark Manifesto sheet; the header toggle switches it to daylight.
 // data-theme on the root carries the sheet and galaxy tokens for whichever theme is on
 export default function LandingPage() {
+  useDocumentTitle('ATLAS: Feedback Pelanggan Jadi Insight Bisnis')
   const rootRef = useRef<HTMLDivElement>(null)
   useReveal(rootRef)
   const { theme, toggleTheme } = useLandingTheme()
@@ -33,7 +35,6 @@ export default function LandingPage() {
         theme === 'dark' && 'dark'
       )}
     >
-      <title>ATLAS: Feedback Pelanggan Jadi Insight Bisnis</title>
       <StarrySky />
 
       <a

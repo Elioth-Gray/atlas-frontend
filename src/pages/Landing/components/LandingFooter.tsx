@@ -36,7 +36,7 @@ export function LandingFooter({ theme }: { theme: Theme }) {
           </div>
           <div className={GROUP_CLASS}>
             <p className={GROUP_LABEL_CLASS}>Akun</p>
-            <Link to="/login" className={`w-fit ${TEXT_LINK_CLASS}`}>
+            <Link to="/signin" className={`w-fit ${TEXT_LINK_CLASS}`}>
               Masuk
             </Link>
             <Link to="/signup" className={`w-fit ${TEXT_LINK_CLASS}`}>
